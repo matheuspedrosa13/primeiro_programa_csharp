@@ -1,0 +1,14 @@
+C:\Users\t60811\Desktop\CSHARP\projeto_produto\bin\Debug\net7.0\projeto_produto.exe
+C:\Users\t60811\Desktop\CSHARP\projeto_produto\bin\Debug\net7.0\projeto_produto.deps.json
+C:\Users\t60811\Desktop\CSHARP\projeto_produto\bin\Debug\net7.0\projeto_produto.runtimeconfig.json
+C:\Users\t60811\Desktop\CSHARP\projeto_produto\bin\Debug\net7.0\projeto_produto.dll
+C:\Users\t60811\Desktop\CSHARP\projeto_produto\bin\Debug\net7.0\projeto_produto.pdb
+C:\Users\t60811\Desktop\CSHARP\projeto_produto\obj\Debug\net7.0\projeto_produto.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\t60811\Desktop\CSHARP\projeto_produto\obj\Debug\net7.0\projeto_produto.AssemblyInfoInputs.cache
+C:\Users\t60811\Desktop\CSHARP\projeto_produto\obj\Debug\net7.0\projeto_produto.AssemblyInfo.cs
+C:\Users\t60811\Desktop\CSHARP\projeto_produto\obj\Debug\net7.0\projeto_produto.csproj.CoreCompileInputs.cache
+C:\Users\t60811\Desktop\CSHARP\projeto_produto\obj\Debug\net7.0\projeto_produto.dll
+C:\Users\t60811\Desktop\CSHARP\projeto_produto\obj\Debug\net7.0\refint\projeto_produto.dll
+C:\Users\t60811\Desktop\CSHARP\projeto_produto\obj\Debug\net7.0\projeto_produto.pdb
+C:\Users\t60811\Desktop\CSHARP\projeto_produto\obj\Debug\net7.0\projeto_produto.genruntimeconfig.cache
+C:\Users\t60811\Desktop\CSHARP\projeto_produto\obj\Debug\net7.0\ref\projeto_produto.dll
