@@ -91,5 +91,32 @@ namespace ClasseMenu
                 Continuar();
             }
         }
+        public void CadastrarCliente(){
+            Console.Write("Qual o id do cliente? ");
+            string? id = Console.ReadLine();
+
+            Console.Write("Digite seu nome: ");
+            string? nomeCompleto = Console.ReadLine();
+
+
+
+            Console.Write("Qual o CPF do cliente? ");
+            string? cpf = Console.ReadLine();
+
+            Console.Write("Qual o sexo do cliente? ");
+            string? sexo = Console.ReadLine();
+
+            Console.Write("Qual o telefone do cliente? ");
+            string? telefone = Console.ReadLine();
+
+            Console.Write("Qual o email do cliente? ");
+            string? email = Console.ReadLine();
+
+            
+            // if(int.TryParse(id, out int id2)){
+            //     Cliente.CadastrarCliente(id2, nomeCompleto,)
+            // }
+        }
+
     }
 }
