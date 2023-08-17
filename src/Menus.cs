@@ -1,122 +1,87 @@
-using System;
-using ClasseCliente; 
-
-namespace ClasseMenu
+public class Menus
 {
-    class Menus
-    {   
-        public void ExibirMenu(){
-            Console.Write("Por onde você deseja começar?\n\n1. Clientes\n2. Produtos\n3. Vendas\n\nDigite aqui a escolha: ");
-            string? valor = Console.ReadLine();
-            if (int.TryParse(valor, out int valor2)){
-                if(valor2 == 1){
-                    ExibirMenuClientes();
-                }
-            }
-        }
-        public void Continuar(){
-            Console.Write("\nDeseja voltar ao menu?\n\n1. Voltar\n2. Encerrar programa\n\n");
-            string? valor = Console.ReadLine();
-            if (int.TryParse(valor, out int valor2)){
-                if (valor2 == 1){
-                    ExibirMenu();
-                }else if(valor2 == 2){
-                    Console.Write("Obrigado por usar o meu sistema, até logo!");
-                }else{
-                    Console.WriteLine("\nOpção inválida");
-                    ExibirMenu();
-                }
-            }
-        }
-        public void ExibirMenuClientes(){
-            Console.Write("\n\n----Clientes----\n\nO que você deseja fazer?\n\n1. Listar todos os clientes\n\n2. Mostrar por id\n\n3. Mostrar por nome\n\n4. Mostrar por CPF\n\nDigite aqui a escolha: ");
-            string? valor = Console.ReadLine();
-            
-            if (int.TryParse(valor, out int valor2)){
-                if (valor2 == 1){
-                    MenuClientelistar();
-                }
-                else if (valor2 == 2){
-                    MenuClientelistarId();
-                }
-                else{
-                    Console.WriteLine("\nOpção inválida");
-                    ExibirMenuClientes();
-                }
-            }
-            else{
-                Console.WriteLine("\nDeve ser um número inteiro");
-                ExibirMenuClientes();
-            }
-        }
+    private ClienteService clienteService = new ClienteService();
+    public void ExibirMenu()
+    
+    {
+        bool sair = false;
 
-        public void MenuClientelistar(){
-            List<Cliente> listaClientes = new List<Cliente>();
-            Cliente cliente1 = new Cliente(12, true, "João Silva", "123.456.789-00", "Masculino", "(11) 1234-5678", "joao@example.com");
-            listaClientes.Add(cliente1);
+        while (!sair)
+        {
+            Console.WriteLine("Selecione uma opção:");
+            Console.WriteLine("1. Adicionar Cliente");
+            Console.WriteLine("2. Mostrar Todos os Clientes");
+            Console.WriteLine("3. Buscar Cliente por ID");
+            Console.WriteLine("4. Sair");
 
-            Cliente cliente2 = new Cliente(13, true, "Maria Souza", "987.654.321-00", "Feminino", "(21) 9876-5432", "maria@example.com");
-            listaClientes.Add(cliente2);
+            int escolha = int.Parse(Console.ReadLine());
 
-            foreach (Cliente cliente in listaClientes)
+            switch (escolha)
             {
-                cliente.MostrarInformacoes();
-                Console.WriteLine();
-                Continuar();
-            }
-        }
-
-        public void MenuClientelistarId(){
-            List<Cliente> listaClientes = new List<Cliente>();
-            Cliente cliente1 = new Cliente(12, true, "João Silva", "123.456.789-00", "Masculino", "(11) 1234-5678", "joao@example.com");
-            listaClientes.Add(cliente1);
-
-            Cliente cliente2 = new Cliente(13, true, "Maria Souza", "987.654.321-00", "Feminino", "(21) 9876-5432", "maria@example.com");
-            listaClientes.Add(cliente2);
-
-            Console.Write("Qual o id do cliente? ");
-            string? valor = Console.ReadLine();
-            if(int.TryParse(valor, out int valor2)){
-                foreach(Cliente cliente in listaClientes){
-                    if(cliente.Id == valor2){
-                        Cliente.BuscarPorId(listaClientes, valor2);
-                        Continuar();
+                case 1:
+                    Console.WriteLine("Digite o id do cliente:");
+                    string idStr = Console.ReadLine();
+                    
+                    if (!int.TryParse(idStr, out int id))
+                    {
+                        Console.WriteLine("ID inválido! Certifique-se de digitar um número inteiro.");
                         break;
-                    }else{
-                        Console.Write("Não existe cliente com esse id");
                     }
-                }
-            }else{
-                Console.Write("\nO id deve ser um número inteiro");
-                Continuar();
+
+                    Console.WriteLine("Digite o nome do cliente:");
+                    string nome = Console.ReadLine();
+
+                    Console.WriteLine("Digite o CPF do cliente:");
+                    string cpf = Console.ReadLine();
+
+                    Console.WriteLine("Digite o sexo do cliente:");
+                    string sexo = Console.ReadLine();
+
+                    Console.WriteLine("Digite o telefone do cliente:");
+                    string telefone = Console.ReadLine();
+
+                    Console.WriteLine("Digite o email do cliente:");
+                    string email = Console.ReadLine();
+
+                    Cliente novoCliente = new Cliente(id, true, nome, cpf, sexo, telefone, email);
+
+                    bool clienteAdicionado = clienteService.addCliente(novoCliente);
+
+                    if (clienteAdicionado)
+                    {
+                        Console.WriteLine("Cliente adicionado com sucesso!");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Não foi possível adicionar o cliente.");
+                    }
+                    break;
+
+
+
+
+
+                case 2:
+                    Console.WriteLine("Lista de todos os clientes:");
+                    
+                    ClasseRepository.MostrarTodosClientes();
+                    
+                    break;
+
+                case 3:
+                    // Lógica para buscar cliente por ID
+                    break;
+                case 4:
+                    sair = true;
+                    break;
+                default:
+                    Console.WriteLine("Opção inválida. Tente novamente.");
+                    break;
             }
         }
-        public void CadastrarCliente(){
-            Console.Write("Qual o id do cliente? ");
-            string? id = Console.ReadLine();
-
-            Console.Write("Digite seu nome: ");
-            string? nomeCompleto = Console.ReadLine();
-
-
-
-            Console.Write("Qual o CPF do cliente? ");
-            string? cpf = Console.ReadLine();
-
-            Console.Write("Qual o sexo do cliente? ");
-            string? sexo = Console.ReadLine();
-
-            Console.Write("Qual o telefone do cliente? ");
-            string? telefone = Console.ReadLine();
-
-            Console.Write("Qual o email do cliente? ");
-            string? email = Console.ReadLine();
-
-            
-            // if(int.TryParse(id, out int id2)){
-            //     Cliente.CadastrarCliente(id2, nomeCompleto,)
-            // }
-        }
-
     }
+
+    // Métodos para as outras opções do menu...
+
 }
+
