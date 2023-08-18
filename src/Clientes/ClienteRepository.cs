@@ -8,10 +8,17 @@ public class ClasseRepository
         return true;
     }
 
+  
     public static void MostrarInformacoes(Cliente cliente)
     {
-        Console.WriteLine("Informações do Cliente:");
-        Console.WriteLine($"Id: {cliente.Id}\nStatus: {cliente.Status}\nNome: {cliente.Nome}\nCPF: {cliente.CPF}\nSexo: {cliente.Sexo}\nTelefone: {cliente.Telefone}\nEmail: {cliente.Email}");
+        if(cliente.Status == true){
+            Console.WriteLine("\nInformações do Cliente:\n");
+            Console.WriteLine($"Id: {cliente.Id}\nAtivo: Sim\nNome: {cliente.Nome}\nCPF: {cliente.CPF}\nSexo: {cliente.Sexo}\nTelefone: {cliente.Telefone}\nEmail: {cliente.Email}");
+        }else{
+            Console.WriteLine("\nInformações do Cliente:\n");
+            Console.WriteLine($"Id: {cliente.Id}\nAtivo: Não\nNome: {cliente.Nome}\nCPF: {cliente.CPF}\nSexo: {cliente.Sexo}\nTelefone: {cliente.Telefone}\nEmail: {cliente.Email}");
+        }
+      
     }
 
     public static void MostrarTodosClientes()
@@ -22,17 +29,67 @@ public class ClasseRepository
             Console.WriteLine();
         }
     }
-
-    public static void BuscarPorId(int termoBusca)
+    public static void BuscarPorId(int id)
     {
         foreach (Cliente cliente in database.clientes)
         {
-            if (cliente.Id == termoBusca)
+            if (cliente.Id == id)
             {
                 MostrarInformacoes(cliente);
-                return;
+                break;
             }
         }
-        Console.WriteLine("Cliente não encontrado");
+    }
+
+    public static void BuscarPorCPF(string cpf)
+    {
+        foreach (Cliente cliente in database.clientes)
+        {
+            if (cliente.CPF == cpf)
+            {
+                MostrarInformacoes(cliente);
+                break;
+            }
+        }
+    }
+
+    public static void BuscarPorNome(string nome)
+    {
+        foreach (Cliente cliente in database.clientes)
+        {
+            if (cliente.Nome.Equals(nome, StringComparison.OrdinalIgnoreCase))
+            {
+                MostrarInformacoes(cliente);
+                break;
+            }
+        }
+    }
+
+    public static bool ExisteEmail(string email)
+    {
+        foreach (Cliente cliente in database.clientes){
+            if (cliente.Email.Equals(email, StringComparison.OrdinalIgnoreCase)){
+                return true;
+            }
+        }
+        return false;
+    }
+    public static bool ExisteTelefone(string telefone)
+    {
+        foreach (Cliente cliente in database.clientes){
+            if (cliente.Telefone.Equals(telefone, StringComparison.OrdinalIgnoreCase)){
+                return true;
+            }
+        }
+        return false;
+    }
+    public static bool ExisteCPF(string cpf)
+    {
+        foreach (Cliente cliente in database.clientes){
+            if (cliente.CPF.Equals(cpf, StringComparison.OrdinalIgnoreCase)){
+                return true;
+            }
+        }
+        return false;
     }
 }

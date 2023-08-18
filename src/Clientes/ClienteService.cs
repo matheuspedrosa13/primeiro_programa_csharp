@@ -1,7 +1,6 @@
 using System.Text.RegularExpressions;
 
 public class ClienteService{
-
     public bool addCliente(Cliente cliente)
     {
         if (!TemSobrenome(cliente.Nome))
@@ -21,36 +20,84 @@ public class ClienteService{
         }
         if (cliente.Id == 0 || !VerificarVazio(cliente.Nome) || !VerificarVazio(cliente.CPF) || !VerificarVazio(cliente.Sexo) || !VerificarVazio(cliente.Telefone) || !VerificarVazio(cliente.Email))
         {
-            Console.Write("O valor não pode ser nulo e nem vazio");
+            Console.Write("O valor não pode ser nulo e nem vazio\n");
             return false;
         }
         if(!ValidarTelefone(cliente.Telefone)){
-            Console.Write("Telefone deve seguir o padrão: (XX)XXXXX-XXXX");
+            Console.Write("Telefone deve seguir o padrão: (XX)XXXXX-XXXX\n");
+            return false;
         }
+
+        if(!ValidarEmail(cliente.Email)){
+            Console.Write("Email não está no formato correto\n");
+            return false;
+        }
+
+        if(ClasseRepository.ExisteEmail(cliente.Email) == true){
+            Console.Write("O email passado já está sendo usado");
+            return false;
+        }
+
+        if(ClasseRepository.ExisteCPF(cliente.CPF) == true){
+            Console.Write("O CPF passado já está sendo usado");
+            return false;
+        }
+        
+        if(ClasseRepository.ExisteTelefone(cliente.Telefone) == true){
+            Console.Write("O telefone passado já está sendo usado");
+            return false;
+        }
+
         bool adicionadoComSucesso = ClasseRepository.AddCliente(cliente);
 
         if (adicionadoComSucesso)
         {
-            Console.WriteLine("Cliente adicionado com sucesso!");
+            Console.WriteLine("\nCliente adicionado com sucesso!");
             return true;
         }
         else
         {
-            Console.WriteLine("Não foi possível adicionar o cliente.");
+            Console.WriteLine("\nNão foi possível adicionar o cliente.");
             return false;
         }
     }
+    
+    public bool ValidarSexoOpcao(string opcao)
+    {
+        string opcaoFormatada = opcao.ToLower();
+        if(opcaoFormatada == "m" || opcaoFormatada == "f" || opcaoFormatada == "p"){
+            return true;
+        }
+        return false;
+    }
 
-    public bool ValidarTelefone(string telefone){
-        Regex Rgx = new Regex(@"^\(\d{2}\)\d{5}-\d{4}$"); //formato (XX)XXXXX-XXXX
+
+    public bool ValidarTelefone(string telefone)
+    {
+        Regex Rgx = new Regex(@"^\d{11}$");
 
         if (!Rgx.IsMatch(telefone))
+        {
             return false;
+        }
         else
+        {
             return true;
-    }  
-    
-                
+        }
+    }
+
+    public bool ValidarEmail(string email)
+    {
+        Regex emailRegex = new Regex(@"^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.\w+$");
+        if (!emailRegex.IsMatch(email))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+
     static bool TemSobrenome(string nome){
         string[] partesNome = nome.Split(' ');
         return partesNome.Length >= 2;
@@ -64,6 +111,7 @@ public class ClienteService{
         }
         return true;
     }
+
     static bool VerificarVazio(object valor) 
     {
         if (valor == null) 
@@ -73,15 +121,12 @@ public class ClienteService{
 
         if (valor is string str) 
         {
-            return !string.IsNullOrEmpty(str); // Altere para !string.IsNullOrEmpty
+            return !string.IsNullOrEmpty(str); 
         }
 
         return true;
     }
 
-
-
-    
     static bool ValidarCPF(string cpf)
     {
         cpf = Regex.Replace(cpf, @"[^\d]", ""); 
