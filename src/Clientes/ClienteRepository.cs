@@ -1,6 +1,8 @@
-public class ClasseRepository
+public class ClienteRepository
 {
     private static ClientesDatabase database = new ClientesDatabase();
+    private static ClienteService service = new ClienteService();
+
 
     public static bool AddCliente(Cliente cliente)
     {
@@ -8,7 +10,40 @@ public class ClasseRepository
         return true;
     }
 
-  
+    public static bool AtualizarPorId(int id, string novoNome, string novoEmail, string novoTelefone)
+    {
+        for (int i = 0; i < database.clientes.Count; i++)
+        {
+            if (database.clientes[i].Id == id)
+            {
+                if (!ClienteService.TemSobrenome(novoNome) || !ClienteService.NaoContemNumeros(novoNome))
+                {
+                    Console.WriteLine("O nome deve ter pelo menos duas palavras, sem números!");
+                    return false;
+                }
+
+                Cliente clienteAtualizado = database.clientes[i];
+                clienteAtualizado.Nome = novoNome;
+                clienteAtualizado.Email = novoEmail;
+                clienteAtualizado.Telefone = novoTelefone;
+
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public static bool AlterarStatusPorId(int id, bool novoStatus){
+        foreach (Cliente cliente in database.clientes)
+        {
+            if (cliente.Id == id){
+                cliente.Status = novoStatus;
+                return true;
+            }
+        }
+        return false;
+    }
     public static void MostrarInformacoes(Cliente cliente)
     {
         if(cliente.Status == true){
@@ -64,6 +99,19 @@ public class ClasseRepository
             }
         }
     }
+
+    public static bool ExisteID(int id)
+    {
+        foreach (Cliente cliente in database.clientes)
+        {
+            if (cliente.Id == id)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public static bool ExisteEmail(string email)
     {

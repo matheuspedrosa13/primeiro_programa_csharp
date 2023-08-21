@@ -33,31 +33,36 @@ public class ClienteService{
             return false;
         }
 
-        if(ClasseRepository.ExisteEmail(cliente.Email) == true){
-            Console.Write("O email passado já está sendo usado");
-            return false;
-        }
-
-        if(ClasseRepository.ExisteCPF(cliente.CPF) == true){
-            Console.Write("O CPF passado já está sendo usado");
+        if(ClienteRepository.ExisteID(cliente.Id) == true){
+            Console.Write("O Id passado já está sendo usado, ele deve ser único!\n");
             return false;
         }
         
-        if(ClasseRepository.ExisteTelefone(cliente.Telefone) == true){
-            Console.Write("O telefone passado já está sendo usado");
+        if(ClienteRepository.ExisteCPF(cliente.CPF) == true){
+            Console.Write("O CPF passado já está sendo usado\n");
             return false;
         }
 
-        bool adicionadoComSucesso = ClasseRepository.AddCliente(cliente);
+        if(ClienteRepository.ExisteTelefone(cliente.Telefone) == true){
+            Console.Write("O telefone passado já está sendo usado\n");
+            return false;
+        }
+
+        if(ClienteRepository.ExisteEmail(cliente.Email) == true){
+            Console.Write("O email passado já está sendo usado\n");
+            return false;
+        }
+
+        bool adicionadoComSucesso = ClienteRepository.AddCliente(cliente);
 
         if (adicionadoComSucesso)
         {
-            Console.WriteLine("\nCliente adicionado com sucesso!");
+            Console.WriteLine("Cliente adicionado com sucesso!");
             return true;
         }
         else
         {
-            Console.WriteLine("\nNão foi possível adicionar o cliente.");
+            Console.WriteLine("Não foi possível adicionar o cliente.");
             return false;
         }
     }
@@ -98,12 +103,12 @@ public class ClienteService{
     }
 
 
-    static bool TemSobrenome(string nome){
+    public static bool TemSobrenome(string nome){
         string[] partesNome = nome.Split(' ');
         return partesNome.Length >= 2;
     }
 
-    static bool NaoContemNumeros(string texto){
+    public static bool NaoContemNumeros(string texto){
         foreach (char c in texto){
             if (char.IsDigit(c)){
                 return false;
@@ -112,7 +117,7 @@ public class ClienteService{
         return true;
     }
 
-    static bool VerificarVazio(object valor) 
+    public static bool VerificarVazio(object valor) 
     {
         if (valor == null) 
         {

@@ -1,6 +1,9 @@
 public class Menus
 {
     private ClienteService clienteService = new ClienteService();
+    private ClienteRepository clienteRepo = new ClienteRepository();
+    private ProdutoService produtoService = new ProdutoService();
+    private ProdutoRepository produtoRepo = new ProdutoRepository();
     public string ObterSexoDoUsuario(string opcao)
     {
 
@@ -23,8 +26,86 @@ public class Menus
             return "Prefiro Não Comentar";
         }
     }
-    public void ExibirMenu()
-    
+
+    public void ExibirMenu(){
+        bool sair = false;
+
+        while (!sair)
+        {
+            Console.WriteLine("\nSelecione uma opção:");
+            Console.WriteLine("1. Aba Cliente");
+
+            string escolhaStr = Console.ReadLine();
+
+            if (!int.TryParse(escolhaStr, out int escolha))
+            {
+                Console.WriteLine("Escolha inválida! Digite um número correspondente à opção desejada.");
+                continue;
+            }
+
+            switch(escolha){
+                case 1:
+                    ExibirMenuCliente();
+                    break;
+                case 2: 
+                    ExibirMenuProduto();
+                    break;
+            }
+        }
+    }
+    public void ExibirMenuProduto()
+    {
+        bool sair = false;
+
+        while (!sair)
+        {
+            Console.WriteLine("\nSelecione uma opção da aba PRODUTO:");
+            Console.WriteLine("1. Cadastrar Produto");
+            Console.WriteLine("2. Listar Produtos");
+            Console.WriteLine("3. Buscar Produto por ID");
+            Console.WriteLine("4. Buscar Produto por Nome");
+            Console.WriteLine("5. Atualizar Produto por ID");
+            Console.WriteLine("6. Excluir Produto por ID");
+            Console.WriteLine("7. Sair");
+
+            string escolhaStr = Console.ReadLine();
+
+            if (!int.TryParse(escolhaStr, out int escolha))
+            {
+                Console.WriteLine("Escolha inválida! Digite um número correspondente à opção desejada.");
+                continue;
+            }
+
+            switch (escolha)
+            {
+                case 1:
+                    CadastrarProduto();
+                    break;
+                case 2:
+                    ListarProdutos();
+                    break;
+                case 3:
+                    BuscarProdutoPorId();
+                    break;
+                case 4:
+                    BuscarProdutoPorNome();
+                    break;
+                case 5:
+                    AtualizarProduto();
+                    break;
+                case 6:
+                    ExcluirProduto();
+                    break;
+                case 7:
+                    sair = true;
+                    break;
+                default:
+                    Console.WriteLine("Opção inválida. Tente novamente.");
+                    break;
+            }
+        }
+    }
+    public void ExibirMenuCliente()
     {
         bool sair = false;
 
@@ -36,9 +117,9 @@ public class Menus
             Console.WriteLine("3. Buscar Cliente por ID");
             Console.WriteLine("4. Buscar Cliente por Nome");
             Console.WriteLine("5. Buscar Cliente por CPF");
-
-            Console.WriteLine("6. Sair");
-
+            Console.WriteLine("6. Atualizar Cliente por ID");
+            Console.WriteLine("7. Alterar Status do Cliente por ID");
+            Console.WriteLine("8. Sair");
 
             string escolhaStr = Console.ReadLine();
 
@@ -87,9 +168,7 @@ public class Menus
 
                 case 2:
                     Console.WriteLine("Lista de todos os clientes:");
-                    
-                    ClasseRepository.MostrarTodosClientes();
-                    
+                    ClienteRepository.MostrarTodosClientes();
                     break;
 
                 case 3:
@@ -98,38 +177,108 @@ public class Menus
                     
                     if (int.TryParse(idString, out int id2))
                     {
-                        
-                        ClasseRepository.BuscarPorId(id2);
+                        ClienteRepository.BuscarPorId(id2);
                     }else{
                         Console.WriteLine("ID inválido! Certifique-se de digitar um número inteiro.");
                         break;
                     }
-                    
                     break;
+
 
                 case 4:
                     Console.WriteLine("Digite o nome do cliente:");
                     string nome2 = Console.ReadLine();
-                    ClasseRepository.BuscarPorNome(nome2);
+                    ClienteRepository.BuscarPorNome(nome2);
                     break;
                 
+
                 case 5:
                     Console.WriteLine("Digite o CPF do cliente:");
                     string cpf2 = Console.ReadLine();
-                    ClasseRepository.BuscarPorCPF(cpf2);
+                    ClienteRepository.BuscarPorCPF(cpf2);
                     break;
 
                 case 6:
-                    sair = true;
+                    Console.WriteLine("Digite o id do cliente para atualizar as informações:");
+                    string idAtualizarStr = Console.ReadLine();
+
+                    if (int.TryParse(idAtualizarStr, out int idAtualizar))
+                    {
+                        Console.WriteLine("Digite o novo nome do cliente (com sobrenome):");
+                        string novoNome = Console.ReadLine();
+
+                        if (!ClienteService.TemSobrenome(novoNome))
+                        {
+                            Console.WriteLine("O nome deve ter pelo menos duas palavras!");
+                            break;
+                        }
+
+                        Console.WriteLine("Digite o novo email do cliente:");
+                        string novoEmail = Console.ReadLine();
+
+                        Console.WriteLine("Digite o novo telefone do cliente: ((XX)XXXXX-XXXX)");
+                        string novoTelefone = Console.ReadLine();
+
+                        bool clienteAtualizado = ClienteRepository.AtualizarPorId(idAtualizar, novoNome, novoEmail, novoTelefone);
+
+                        if (clienteAtualizado)
+                        {
+                            Console.WriteLine("Informações do cliente atualizadas com sucesso!");
+                        }
+                        else
+                        {
+                            Console.WriteLine("Não foi possível atualizar as informações do cliente.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("ID inválido! Certifique-se de digitar um número inteiro.");
+                    }
                     break;
-                default:
-                    Console.WriteLine("Opção inválida. Tente novamente.");
+
+
+
+                case 7:
+                    Console.WriteLine("Digite o id do cliente para alterar o status:");
+                    string idStatusStr = Console.ReadLine();
+
+                    if (int.TryParse(idStatusStr, out int idStatus))
+                    {
+                        Console.WriteLine("Digite o novo status (true ou false):");
+                        string novoStatusStr = Console.ReadLine();
+
+                        if (bool.TryParse(novoStatusStr, out bool novoStatus))
+                        {
+                            bool statusAlterado = ClienteRepository.AlterarStatusPorId(idStatus, novoStatus);
+
+                            if (statusAlterado)
+                            {
+                                Console.WriteLine("Status do cliente alterado com sucesso!");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Não foi possível alterar o status do cliente.");
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Status inválido! Digite 'true' para ativo ou 'false' para inativo.");
+                        }
+                    }
+                    else
+                    {
+                        Console.WriteLine("ID inválido! Certifique-se de digitar um número inteiro.");
+                    }
                     break;
+
+                    case 8:
+                        sair = true;
+                        break;
+                    default:
+                        Console.WriteLine("Opção inválida. Tente novamente.");
+                        break;
+                }
             }
         }
-    }
-
-    // Métodos para as outras opções do menu...
-
 }
 
