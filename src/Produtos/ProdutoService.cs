@@ -1,28 +1,30 @@
 public class ProdutoService
-{
-    public void Atualizar(Produto produto, int novoId, string novoNome, decimal novoPreco, int novaQuantidadeEstoque, string novoFabricante, string novaDescricaoTecnica)
+{   
+    ProdutoRepository produtoRepo = new ProdutoRepository();    
+    public void AtualizarProduto(int id, string coluna, object novoValor)
     {
-        produto.Id = novoId;
-        produto.Nome = novoNome;
-        produto.Preco = novoPreco;
-
-        if (novaQuantidadeEstoque >= produto.QuantidadeEstoque)
+        if (coluna == "Preco")
         {
-            produto.QuantidadeEstoque = novaQuantidadeEstoque;
+            decimal precoNovo = Convert.ToDecimal(novoValor);
+            if (precoNovo <= 0)
+            {
+                throw new ArgumentException("O preço deve ser maior que zero.");
+            }
         }
-        else
-        {
-            throw new ArgumentException("A quantidade em estoque não pode ser reduzida.");
+        else if (coluna == "quantidadeEstoque"){
+            int quantidadeNova = Convert.ToInt32(novoValor);
+            if (quantidadeNova < 0 || quantidadeNova < produtoRepo.ObterQuantidadeEstoque(id))
+            {
+                throw new ArgumentException("A quantidade em estoque não pode ser negativa ou diminuída.");
+            }
         }
 
-        produto.Fabricante = novoFabricante;
-        produto.DescricaoTecnica = novaDescricaoTecnica;
+        produtoRepo.AtualizarProduto(id, coluna, novoValor);
     }
 
     public void ExcluirProduto(List<Produto> produtos, int id)
     {
         Produto produtoExistente = produtos.Find(p => p.Id == id);
-
         if (produtoExistente != null)
         {
             produtos.Remove(produtoExistente);

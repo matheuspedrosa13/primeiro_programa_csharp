@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 public class Produto{
     public int Id { get; set; }
+    public bool Status {get; set;}
     public string Nome { get; set; }
     private decimal preco;
     private int quantidadeEstoque;
@@ -33,8 +34,9 @@ public class Produto{
         }
     }
 
-    public Produto(int id, string nome, decimal preco, int quantidadeEstoque, string fabricante, string descricaoTecnica){
+    public Produto(int id, bool status, string nome, decimal preco, int quantidadeEstoque, string fabricante, string descricaoTecnica){
         Id = id;
+        Status = status;
         Nome = nome;
         Preco = preco;
         QuantidadeEstoque = quantidadeEstoque;

@@ -64,40 +64,20 @@ public class ClienteRepository
             Console.WriteLine();
         }
     }
-    public static void BuscarPorId(int id)
+    public void BuscarPorId(int id)
     {
-        foreach (Cliente cliente in database.clientes)
-        {
-            if (cliente.Id == id)
-            {
-                MostrarInformacoes(cliente);
-                break;
-            }
-        }
+        service.BuscarPorId(id);
     }
 
-    public static void BuscarPorCPF(string cpf)
+    public void BuscarPorCPF(string cpf)
     {
-        foreach (Cliente cliente in database.clientes)
-        {
-            if (cliente.CPF == cpf)
-            {
-                MostrarInformacoes(cliente);
-                break;
-            }
-        }
+        service.BuscarPorCPF(cpf);
     }
 
-    public static void BuscarPorNome(string nome)
+    public void BuscarPorNome(string nome)
     {
-        foreach (Cliente cliente in database.clientes)
-        {
-            if (cliente.Nome.Equals(nome, StringComparison.OrdinalIgnoreCase))
-            {
-                MostrarInformacoes(cliente);
-                break;
-            }
-        }
+        service.BuscarPorNome(nome);
+        
     }
 
     public static bool ExisteID(int id)

@@ -1,6 +1,8 @@
 using System.Text.RegularExpressions;
 
 public class ClienteService{
+    private static ClientesDatabase database = new ClientesDatabase();
+
     public bool addCliente(Cliente cliente)
     {
         if (!TemSobrenome(cliente.Nome))
@@ -67,6 +69,43 @@ public class ClienteService{
         }
     }
     
+    public void BuscarPorId(int id)
+    {
+        foreach (Cliente cliente in database.clientes)
+        {
+            if (cliente.Id == id)
+            {
+                ClienteRepository.MostrarInformacoes(cliente);
+                break;
+            }
+        }
+    }
+
+    public void BuscarPorCPF(string cpf)
+    {
+        foreach (Cliente cliente in database.clientes)
+        {
+            if (cliente.CPF == cpf)
+            {
+                ClienteRepository.MostrarInformacoes(cliente);
+                break;
+            }
+        }
+    }
+
+    public void BuscarPorNome(string nome)
+    {
+        foreach (Cliente cliente in database.clientes)
+        {
+            if (cliente.Nome.Equals(nome, StringComparison.OrdinalIgnoreCase))
+            {
+                ClienteRepository.MostrarInformacoes(cliente);
+                break;
+            }
+        }
+    }
+
+
     public bool ValidarSexoOpcao(string opcao)
     {
         string opcaoFormatada = opcao.ToLower();
