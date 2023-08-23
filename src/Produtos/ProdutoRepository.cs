@@ -6,7 +6,8 @@ public class ProdutoRepository{
 
 
     public int ObterQuantidadeEstoque(int id){
-        return BuscarPorId(id).QuantidadeEstoque;
+        Produto produtoQuantidade = database.produto.Find(produto => produto.Id == id);
+        return produtoQuantidade.QuantidadeEstoque;
     }   
     public bool CadastrarProduto(Produto produto){
         List<Produto> produtos = ListarProdutos();
@@ -35,10 +36,19 @@ public class ProdutoRepository{
         return database.produto;
     }
 
-    public Produto BuscarPorId(int id)
+    public void BuscarPorId(int id)
     {
-        return database.produto.Find(produto => produto.Id == id);
+        Produto a = database.produto.Find(produto => produto.Id == id);
+        if(a.Status == true){
+            Console.WriteLine("\nInformações do Produto:\n");
+            Console.WriteLine($"Id: {a.Id}\nAtivo: Sim\nNome: {a.Nome}\nPreço: {a.Preco}\nEstoque: {a.QuantidadeEstoque}\nFabricante: {a.Fabricante}\nDescrição Técnica: {a.DescricaoTecnica}");
+        }else{
+                  Console.WriteLine("\nInformações do Produto:\n");
+            Console.WriteLine($"Id: {a.Id}\nAtivo: Não\nNome: {a.Nome}\nPreço: {a.Preco}\nEstoque: {a.QuantidadeEstoque}\nFabricante: {a.Fabricante}\nDescrição Técnica: {a.DescricaoTecnica}");
+        }   
     }
+
+
 
     public bool AtualizarProduto(int id, string coluna, object novoValor)
     {
@@ -64,5 +74,17 @@ public class ProdutoRepository{
     public List<Produto> BuscarPorNome(string nome)
     {
         return database.produto.FindAll(produto => produto.Nome.Equals(nome, StringComparison.OrdinalIgnoreCase));
+    }
+
+    public static Produto ObterProdutoPorId(int id)
+    {
+        foreach (Produto produto in database.produto)
+        {
+            if (produto.Id == id)
+            {
+                return produto;
+            }
+        }
+        return null;
     }
 }

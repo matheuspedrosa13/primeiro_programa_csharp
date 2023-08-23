@@ -64,6 +64,20 @@ public class ClienteRepository
             Console.WriteLine();
         }
     }
+
+    public static Cliente ObterClientePorId(int id)
+    {
+        foreach (Cliente cliente in database.clientes)
+        {
+            if (cliente.Id == id)
+            {
+                return cliente;
+            }
+        }
+        return null;
+    }
+
+
     public void BuscarPorId(int id)
     {
         service.BuscarPorId(id);

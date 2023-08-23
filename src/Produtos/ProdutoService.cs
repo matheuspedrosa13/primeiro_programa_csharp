@@ -1,6 +1,8 @@
 public class ProdutoService
 {   
     ProdutoRepository produtoRepo = new ProdutoRepository();    
+    private static ProdutoDatabase database = new ProdutoDatabase();
+
     public void AtualizarProduto(int id, string coluna, object novoValor)
     {
         if (coluna == "Preco")
@@ -33,5 +35,11 @@ public class ProdutoService
         {
             throw new ArgumentException("Produto não encontrado.");
         }
+    }
+
+
+    public static Produto MostrarProduto(int id)
+    {
+        return ProdutoRepository.ObterProdutoPorId(id);
     }
 }

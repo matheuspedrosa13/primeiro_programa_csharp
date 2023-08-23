@@ -4,6 +4,9 @@ public class Menus
     private ClienteRepository clienteRepo = new ClienteRepository();
     private ProdutoService produtoService = new ProdutoService();
     private ProdutoRepository produtoRepo = new ProdutoRepository();
+
+    private VendaRepository vendaRepository = new VendaRepository();
+
     public string ObterSexoDoUsuario(string opcao)
     {
 
@@ -26,7 +29,6 @@ public class Menus
             return "Prefiro Não Comentar";
         }
     }
-
     public void ExibirMenu(){
         bool sair = false;
 
@@ -35,6 +37,7 @@ public class Menus
             Console.WriteLine("\nSelecione uma opção:");
             Console.WriteLine("1. Aba Cliente");
             Console.WriteLine("2. Aba Produto");
+            Console.WriteLine("3. Aba Vendas");
 
             string escolhaStr = Console.ReadLine();
 
@@ -51,9 +54,15 @@ public class Menus
                 case 2: 
                     ExibirMenuProduto();
                     break;
+                case 3: 
+                    ExibirMenuVendas();
+                    break;
             }
         }
     }
+
+    // MENUS DE EXIBIR (PRODUTO, CLIENTE, VENDAS)
+
     public void ExibirMenuProduto()
     {
         bool sair = false;
@@ -139,12 +148,8 @@ public class Menus
                         Console.WriteLine("ID inválido! Certifique-se de digitar um número inteiro.");
                         continue;
                     }
-                    Produto produtosPorId = produtoRepo.BuscarPorId(idReal);
-                    if(produtosPorId.Status == true){
-                        Console.WriteLine($"ID: {produtosPorId.Id}, Ativo: Sim, Nome: {produtosPorId.Nome}, Preço: {produtosPorId.Preco}, Quantidade em Estoque: {produtosPorId.QuantidadeEstoque}");
-                    }else{
-                        Console.WriteLine($"ID: {produtosPorId.Id}, Ativo: Não, Nome: {produtosPorId.Nome}, Preço: {produtosPorId.Preco}, Quantidade em Estoque: {produtosPorId.QuantidadeEstoque}");
-                    }
+                    produtoRepo.BuscarPorId(idReal);
+
                     ContinueProduto();
                     break;
 
@@ -226,65 +231,6 @@ public class Menus
                     Console.WriteLine("Opção inválida. Tente novamente.");
                     break;
             }
-        }
-    }
-    public void ContinueCliente()
-    {
-        Console.WriteLine("Deseja continuar no cliente?");
-        Console.WriteLine("1. Sim");
-        Console.WriteLine("2. Voltar para o menu principal");
-        string escolhaStr = Console.ReadLine();
-
-        if (!int.TryParse(escolhaStr, out int escolha))
-        {
-            Console.WriteLine("Escolha inválida! Digite um número correspondente à opção desejada.");
-            ExibirMenuCliente();
-        }
-        
-        switch (escolha)
-        {
-            case 1:
-                ExibirMenuCliente();
-                break;
-
-            case 2:
-                ExibirMenu();
-                break; 
-
-            default:
-                Console.WriteLine("Opção inválida.");
-                ContinueCliente(); 
-                break; 
-        }
-    }
-
-    public void ContinueProduto()
-    {
-        Console.WriteLine("Deseja continuar no produto?");
-        Console.WriteLine("1. Sim");
-        Console.WriteLine("2. Voltar para o menu principal");
-        string escolhaStr = Console.ReadLine();
-
-        if (!int.TryParse(escolhaStr, out int escolha))
-        {
-            Console.WriteLine("Escolha inválida! Digite um número correspondente à opção desejada.");
-            ExibirMenuCliente();
-        }
-        
-        switch (escolha)
-        {
-            case 1:
-                ExibirMenuProduto();
-                break;
-
-            case 2:
-                ExibirMenu();
-                break; 
-
-            default:
-                Console.WriteLine("Opção inválida.");
-                ContinueProduto(); 
-                break; 
         }
     }
     public void ExibirMenuCliente()
@@ -467,4 +413,170 @@ public class Menus
              }
          }
      }
+    public void ExibirMenuVendas()
+    {
+        bool sair = false;
+
+        while (!sair)
+        {
+            Console.WriteLine("\nSelecione uma opção da aba VENDAS:");
+            Console.WriteLine("1. Realizar Nova Venda");
+            Console.WriteLine("2. Mostrar Todas as Vendas");
+            Console.WriteLine("3. Filtrar Vendas por Cliente");
+            Console.WriteLine("4. Filtrar Vendas por Produto");
+            Console.WriteLine("5. Sair");
+
+            string escolhaStr = Console.ReadLine();
+
+            if (!int.TryParse(escolhaStr, out int escolha))
+            {
+                Console.WriteLine("Escolha inválida! Digite um número correspondente à opção desejada.");
+                continue;
+            }
+
+            switch (escolha)
+            {
+                case 1:
+                    Console.WriteLine("Digite o ID do cliente:");
+                    int clienteID = int.Parse(Console.ReadLine());
+
+                    Console.WriteLine("Digite o ID do produto:");
+                    int produtoID = int.Parse(Console.ReadLine());
+
+                    Console.WriteLine("Digite a quantidade:");
+                    int quantidade = int.Parse(Console.ReadLine());
+
+                    Console.WriteLine("Escolha a forma de pagamento (0 - Dinheiro, 1 - CartaoDeDebito, 2 - CartaoDeCredito, 3 - PIX):");
+                    FormaPagamento formaPagamento = (FormaPagamento)int.Parse(Console.ReadLine());
+
+                    vendaRepository.AdicionarVenda(clienteID, produtoID, quantidade, formaPagamento);
+                    ContinueVendas();
+                    break;
+
+                case 2:
+                    Console.WriteLine("Lista de todas as vendas:");
+                    vendaRepository.MostrarVendas(vendaRepository.ObterTodasVendas());
+                    ContinueVendas();
+                    break;
+
+                case 3:
+                    Console.WriteLine("Digite o ID do cliente:");
+                    int clienteIDFiltro = int.Parse(Console.ReadLine());
+
+                    Console.WriteLine("Vendas do cliente:");
+                    vendaRepository.MostrarVendas(vendaRepository.BuscarPorCliente(clienteIDFiltro));
+                    ContinueVendas();
+                    break;
+
+                case 4:
+                    Console.WriteLine("Digite o ID do produto:");
+                    int produtoIDFiltro = int.Parse(Console.ReadLine());
+
+                    Console.WriteLine("Vendas do produto:");
+                    vendaRepository.MostrarVendas(vendaRepository.BuscarPorProduto(produtoIDFiltro));
+                    ContinueVendas();
+                    break;
+
+                case 5:
+                    sair = true;
+                    ExibirMenu();
+                    break;
+
+                default:
+                    Console.WriteLine("Opção inválida. Tente novamente.");
+                    ContinueVendas();
+                    break;
+            }
+        }
+    }
+
+    // MENUS DE CONTINUAR
+    public void ContinueCliente()
+    {
+        Console.WriteLine("Deseja continuar no cliente?");
+        Console.WriteLine("1. Sim");
+        Console.WriteLine("2. Voltar para o menu principal");
+        string escolhaStr = Console.ReadLine();
+
+        if (!int.TryParse(escolhaStr, out int escolha))
+        {
+            Console.WriteLine("Escolha inválida! Digite um número correspondente à opção desejada.");
+            ExibirMenuCliente();
+        }
+        
+        switch (escolha)
+        {
+            case 1:
+                ExibirMenuCliente();
+                break;
+
+            case 2:
+                ExibirMenu();
+                break; 
+
+            default:
+                Console.WriteLine("Opção inválida.");
+                ContinueCliente(); 
+                break; 
+        }
+    }
+
+    public void ContinueProduto()
+    {
+        Console.WriteLine("Deseja continuar no produto?");
+        Console.WriteLine("1. Sim");
+        Console.WriteLine("2. Voltar para o menu principal");
+        string escolhaStr = Console.ReadLine();
+
+        if (!int.TryParse(escolhaStr, out int escolha))
+        {
+            Console.WriteLine("Escolha inválida! Digite um número correspondente à opção desejada.");
+            ExibirMenuCliente();
+        }
+        
+        switch (escolha)
+        {
+            case 1:
+                ExibirMenuProduto();
+                break;
+
+            case 2:
+                ExibirMenu();
+                break; 
+
+            default:
+                Console.WriteLine("Opção inválida.");
+                ContinueProduto(); 
+                break; 
+        }
+    }
+    public void ContinueVendas()
+    {
+        Console.WriteLine("Deseja continuar na aba de VENDAS?");
+        Console.WriteLine("1. Sim");
+        Console.WriteLine("2. Voltar para o menu principal");
+        string escolhaStr = Console.ReadLine();
+
+        if (!int.TryParse(escolhaStr, out int escolha))
+        {
+            Console.WriteLine("Escolha inválida! Digite um número correspondente à opção desejada.");
+            ContinueVendas();
+        }
+
+        switch (escolha)
+        {
+            case 1:
+                ExibirMenuVendas();
+                break;
+
+            case 2:
+                ExibirMenu();
+                break;
+
+            default:
+                Console.WriteLine("Opção inválida.");
+                ContinueVendas();
+                break;
+        }
+    }
 }

@@ -2,6 +2,8 @@ using System.Text.RegularExpressions;
 
 public class ClienteService{
     private static ClientesDatabase database = new ClientesDatabase();
+    private static ClienteRepository clienteRepository = new ClienteRepository();
+
 
     public bool addCliente(Cliente cliente)
     {
@@ -81,6 +83,23 @@ public class ClienteService{
         }
     }
 
+    public static bool ExisteCliente(int id)
+    {
+        foreach (Cliente cliente in database.clientes)
+        {
+            if (cliente.Id == id)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static Cliente MostrarCliente(int id)
+    {
+        return ClienteRepository.ObterClientePorId(id);
+    }
+    
     public void BuscarPorCPF(string cpf)
     {
         foreach (Cliente cliente in database.clientes)
