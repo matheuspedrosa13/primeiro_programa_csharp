@@ -1,67 +1,11 @@
-public class Menus
-{
+public class MenusExibir{
     private ClienteService clienteService = new ClienteService();
     private ClienteRepository clienteRepo = new ClienteRepository();
-    private ProdutoService produtoService = new ProdutoService();
     private ProdutoRepository produtoRepo = new ProdutoRepository();
-
     private VendaRepository vendaRepository = new VendaRepository();
-
-    public string ObterSexoDoUsuario(string opcao)
-    {
-
-        while (!clienteService.ValidarSexoOpcao(opcao))
-        {
-            Console.WriteLine("Opção inválida! Escolha entre 'M', 'F' ou 'P':");
-            opcao = Console.ReadLine();
-        }
-
-        if (opcao.ToLower() == "m")
-        {
-            return "Masculino";
-        }
-        else if (opcao.ToLower() == "f")
-        {
-            return "Feminino";
-        }
-        else
-        {
-            return "Prefiro Não Comentar";
-        }
-    }
-    public void ExibirMenu(){
-        bool sair = false;
-
-        while (!sair)
-        {
-            Console.WriteLine("\nSelecione uma opção:");
-            Console.WriteLine("1. Aba Cliente");
-            Console.WriteLine("2. Aba Produto");
-            Console.WriteLine("3. Aba Vendas");
-
-            string escolhaStr = Console.ReadLine();
-
-            if (!int.TryParse(escolhaStr, out int escolha))
-            {
-                Console.WriteLine("Escolha inválida! Digite um número correspondente à opção desejada.");
-                continue;
-            }
-
-            switch(escolha){
-                case 1:
-                    ExibirMenuCliente();
-                    break;
-                case 2: 
-                    ExibirMenuProduto();
-                    break;
-                case 3: 
-                    ExibirMenuVendas();
-                    break;
-            }
-        }
-    }
-
-    // MENUS DE EXIBIR (PRODUTO, CLIENTE, VENDAS)
+    private MenusContinuar menusContinuar = new MenusContinuar();
+    private MenusFuncionamento menusFuncionamento = new MenusFuncionamento();
+    private Menu menuPrincipal = new Menu();
 
     public void ExibirMenuProduto()
     {
@@ -78,7 +22,7 @@ public class Menus
             Console.WriteLine("6. Excluir Produto por ID");
             Console.WriteLine("7. Sair");
 
-            string escolhaStr = Console.ReadLine();
+            var escolhaStr = Console.ReadLine();
 
             if (!int.TryParse(escolhaStr, out int escolha))
             {
@@ -90,7 +34,7 @@ public class Menus
             {
                 case 1:
                     Console.WriteLine("Digite o id do produto:");
-                    string idStr = Console.ReadLine();
+                    var idStr = Console.ReadLine();
                     
                     if (!int.TryParse(idStr, out int id))
                     {
@@ -99,30 +43,30 @@ public class Menus
                     }
 
                     Console.WriteLine("Digite o nome do produto:");
-                    string nome = Console.ReadLine();
+                    var nome = Console.ReadLine();
 
                     Console.WriteLine("Digite o preço do produto: (0.00)");
-                    string escolhaPreco = Console.ReadLine();
+                    var escolhaPreco = Console.ReadLine();
                     if (!decimal.TryParse(escolhaPreco, out decimal precoDecimal)){
                         Console.WriteLine("Escolha inválida! Digite um número decimal!");
-                        ContinueProduto();
+                        menusContinuar.ContinueProduto();
                     }
                     Console.WriteLine("Digite a quantidade em estoque:");
-                    string estoque  = Console.ReadLine();
+                    var estoque  = Console.ReadLine();
                     if(!int.TryParse(estoque, out int estoqueReal)){
                         Console.WriteLine("Escolha inválida! Digite um número inteiro!");
                     }                 
 
                     Console.WriteLine("Digite o nome do fabricante:");
-                    string fabricante = Console.ReadLine();
+                    var fabricante = Console.ReadLine();
 
                     Console.WriteLine("Digite a descrição do produto:");
-                    string descricao = Console.ReadLine();
+                    var descricao = Console.ReadLine();
 
                     Produto novoProduto = new Produto(id, true, nome, precoDecimal, estoqueReal, fabricante, descricao);
 
                     produtoRepo.CadastrarProduto(novoProduto);
-                    ContinueProduto();
+                    menusContinuar.ContinueProduto();
                     break;
 
                 case 2:
@@ -136,12 +80,12 @@ public class Menus
                             Console.WriteLine($"ID: {produto.Id}, Ativo: Não, Nome: {produto.Nome}, Preço: {produto.Preco}, Quantidade em Estoque: {produto.QuantidadeEstoque}");
                         }
                     }
-                    ContinueProduto();
+                    menusContinuar.ContinueProduto();
                     break;
 
                 case 3:
                     Console.WriteLine("Digite o id do produto:");
-                    string idProd = Console.ReadLine();
+                    var idProd = Console.ReadLine();
                     
                     if (!int.TryParse(idProd, out int idReal))
                     {
@@ -150,12 +94,12 @@ public class Menus
                     }
                     produtoRepo.BuscarPorId(idReal);
 
-                    ContinueProduto();
+                    menusContinuar.ContinueProduto();
                     break;
 
                 case 4:
                     Console.WriteLine("Digite o nome do produto:");
-                    string nome2 = Console.ReadLine();
+                    var nome2 = Console.ReadLine();
 
                     List<Produto> produtosPorNome = produtoRepo.BuscarPorNome(nome2);
                     
@@ -167,12 +111,12 @@ public class Menus
                             Console.WriteLine($"ID: {produto.Id}, Ativo: Não, Nome: {produto.Nome}, Preço: {produto.Preco}, Quantidade em Estoque: {produto.QuantidadeEstoque}");
                         }
                     }
-                    ContinueProduto();
+                    menusContinuar.ContinueProduto();
                     break;
 
                 case 5:
                     Console.WriteLine("Digite o id do produto:");
-                    string idAtualizar = Console.ReadLine();
+                    var idAtualizar = Console.ReadLine();
                     
                     if (!int.TryParse(idAtualizar, out int idFinal))
                     {
@@ -181,22 +125,22 @@ public class Menus
                     }
 
                     Console.WriteLine("O que você deseja atualizar(Nome, preco, quantidadeEstoque, Fabricante, DescicaoTecnica?");
-                    string coluna = Console.ReadLine();
+                    var coluna = Console.ReadLine();
 
                     Console.WriteLine("Digite o novo valor:");
-                    string novoValor = Console.ReadLine();
-                    produtoRepo.AtualizarProduto(idFinal, coluna, novoValor);
-                    ContinueProduto();
+                    var novoValor = Console.ReadLine();
+                    produtoRepo.AtualizarProduto(idFinal, coluna, novoValor!);
+                    menusContinuar.ContinueProduto();
                     break;
 
                 case 6:
                     Console.WriteLine("Digite o id do produto para alterar o status:");
-                    string idStatusStr = Console.ReadLine();
+                    var idStatusStr = Console.ReadLine();
 
                     if (int.TryParse(idStatusStr, out int idStatus))
                     {
                         Console.WriteLine("Digite o novo status (true ou false):");
-                        string novoStatusStr = Console.ReadLine();
+                        var novoStatusStr = Console.ReadLine();
 
                         if (bool.TryParse(novoStatusStr, out bool novoStatus))
                         {
@@ -220,12 +164,12 @@ public class Menus
                     {
                         Console.WriteLine("ID inválido! Certifique-se de digitar um número inteiro.");
                     }
-                    ContinueProduto();
+                    menusContinuar.ContinueProduto();
                     break;
 
                 case 7:
                     sair = true;
-                    ExibirMenu();
+                    menuPrincipal.ExibirMenu();
                     break;
                 default:
                     Console.WriteLine("Opção inválida. Tente novamente.");
@@ -249,7 +193,7 @@ public class Menus
             Console.WriteLine("7. Alterar Status do Cliente por ID");
             Console.WriteLine("8. Sair");
 
-            string escolhaStr = Console.ReadLine();
+            var escolhaStr = Console.ReadLine();
 
             if (!int.TryParse(escolhaStr, out int escolha))
             {
@@ -260,7 +204,7 @@ public class Menus
             switch (escolha){
                 case 1:
                     Console.WriteLine("Digite o id do cliente:");
-                    string idStr = Console.ReadLine();
+                    var idStr = Console.ReadLine();
                     
                     if (!int.TryParse(idStr, out int id))
                     {
@@ -269,88 +213,88 @@ public class Menus
                     }
 
                     Console.WriteLine("Digite o nome do cliente:");
-                    string nome = Console.ReadLine();
+                    var nome = Console.ReadLine();
 
                     Console.WriteLine("Digite o CPF do cliente:");
-                    string cpf = Console.ReadLine();
+                    var cpf = Console.ReadLine();
 
                     Console.WriteLine("Digite o sexo (M para Masculino, F para Feminino, P para Prefiro Não Comentar):");
-                    string sexo = Console.ReadLine();
-                    string sexoReal = ObterSexoDoUsuario(sexo);
+                    var sexo = Console.ReadLine();
+                    var sexoReal = menusFuncionamento.ObterSexoDoUsuario(sexo!);
 
                     Console.WriteLine("Digite o telefone do cliente: ((XX)XXXXX-XXXX)");
-                    string telefone = Console.ReadLine();
+                    var telefone = Console.ReadLine();
 
                     Console.WriteLine("Digite o email do cliente:");
-                    string email = Console.ReadLine();
+                    var email = Console.ReadLine();
 
-                    Cliente novoCliente = new Cliente(id, true, nome, cpf, sexoReal, telefone, email);
+                    Cliente novoCliente = new Cliente(id, true, nome!, cpf!, sexoReal, telefone!, email!);
 
                     bool clienteAdicionado = clienteService.addCliente(novoCliente);
 
                     if (!clienteAdicionado){
                         Console.WriteLine("Não foi possível adicionar o cliente.");
                     }
-                    ContinueCliente();
+                    menusContinuar.ContinueCliente();
                     break;
 
                 case 2:
                     Console.WriteLine("Lista de todos os clientes:");
                     ClienteRepository.MostrarTodosClientes();
-                    ContinueCliente();
+                    menusContinuar.ContinueCliente();
                     break;
 
                 case 3:
                     Console.WriteLine("Digite o id do cliente:");
-                    string idString = Console.ReadLine();
+                    var idvar = Console.ReadLine();
                     
-                    if (int.TryParse(idString, out int id2))
+                    if (int.TryParse(idvar, out int id2))
                     {
                         clienteRepo.BuscarPorId(id2);
                     }else{
                         Console.WriteLine("ID inválido! Certifique-se de digitar um número inteiro.");
-                        ContinueCliente();
+                        menusContinuar.ContinueCliente();
                         break;
                     }
-                    ContinueCliente();
+                    menusContinuar.ContinueCliente();
                     break;
 
                 case 4:
                     Console.WriteLine("Digite o nome do cliente:");
-                    string nome2 = Console.ReadLine();
-                    clienteRepo.BuscarPorNome(nome2);
-                    ContinueCliente();
+                    var nome2 = Console.ReadLine();
+                    clienteRepo.BuscarPorNome(nome2!);
+                    menusContinuar.ContinueCliente();
                     break;
                 
                 case 5:
                     Console.WriteLine("Digite o CPF do cliente:");
-                    string cpf2 = Console.ReadLine();
-                    clienteRepo.BuscarPorCPF(cpf2);
-                    ContinueCliente();
+                    var cpf2 = Console.ReadLine();
+                    clienteRepo.BuscarPorCPF(cpf2!);
+                    menusContinuar.ContinueCliente();
                     break;
 
                 case 6:
                     Console.WriteLine("Digite o id do cliente para atualizar as informações:");
-                    string idAtualizarStr = Console.ReadLine();
+                    var idAtualizarStr = Console.ReadLine();
 
                     if (int.TryParse(idAtualizarStr, out int idAtualizar))
                     {
                         Console.WriteLine("Digite o novo nome do cliente (com sobrenome):");
-                        string novoNome = Console.ReadLine();
+                        var novoNome = Console.ReadLine();
 
-                        if (!ClienteService.TemSobrenome(novoNome))
+                        if (!ClienteService.TemSobrenome(novoNome!))
                         {
                             Console.WriteLine("O nome deve ter pelo menos duas palavras!");
                             break;
                         }
 
                         Console.WriteLine("Digite o novo email do cliente:");
-                        string novoEmail = Console.ReadLine();
+                        var novoEmail = Console.ReadLine();
 
                         Console.WriteLine("Digite o novo telefone do cliente: ((XX)XXXXX-XXXX)");
-                        string novoTelefone = Console.ReadLine();
+                        var novoTelefone = Console.ReadLine();
 
-                        bool clienteAtualizado = ClienteRepository.AtualizarPorId(idAtualizar, novoNome, novoEmail, novoTelefone);
+                        bool clienteAtualizado = ClienteRepository.AtualizarPorId(idAtualizar, novoNome!, novoEmail!, novoTelefone!);
 
                         if (clienteAtualizado)
                         {
@@ -365,17 +309,17 @@ public class Menus
                     {
                         Console.WriteLine("ID inválido! Certifique-se de digitar um número inteiro.");
                     }
-                    ContinueCliente();
+                    menusContinuar.ContinueCliente();
                     break;
 
                 case 7:
                     Console.WriteLine("Digite o id do cliente para alterar o status:");
-                    string idStatusStr = Console.ReadLine();
+                    var idStatusStr = Console.ReadLine();
 
                     if (int.TryParse(idStatusStr, out int idStatus))
                     {
                         Console.WriteLine("Digite o novo status (true ou false):");
-                        string novoStatusStr = Console.ReadLine();
+                        var novoStatusStr = Console.ReadLine();
 
                         if (bool.TryParse(novoStatusStr, out bool novoStatus))
                         {
@@ -399,16 +343,16 @@ public class Menus
                     {
                         Console.WriteLine("ID inválido! Certifique-se de digitar um número inteiro.");
                     }
-                    ContinueCliente();
+                    menusContinuar.ContinueCliente();
                     break;
 
                     case 8:
                         sair = true;
-                        ExibirMenu();
+                        menuPrincipal.ExibirMenu();
                         break;
                     default:
                         Console.WriteLine("Opção inválida. Tente novamente.");
-                        ContinueCliente();
+                        menusContinuar.ContinueCliente();
                         break;
              }
          }
@@ -426,7 +370,7 @@ public class Menus
             Console.WriteLine("4. Filtrar Vendas por Produto");
             Console.WriteLine("5. Sair");
 
-            string escolhaStr = Console.ReadLine();
+            var escolhaStr = Console.ReadLine();
 
             if (!int.TryParse(escolhaStr, out int escolha))
             {
@@ -438,145 +382,63 @@ public class Menus
             {
                 case 1:
                     Console.WriteLine("Digite o ID do cliente:");
-                    int clienteID = int.Parse(Console.ReadLine());
+                    int clienteID = int.Parse(Console.ReadLine()!);
 
                     Console.WriteLine("Digite o ID do produto:");
-                    int produtoID = int.Parse(Console.ReadLine());
+                    int produtoID = int.Parse(Console.ReadLine()!);
 
                     Console.WriteLine("Digite a quantidade:");
-                    int quantidade = int.Parse(Console.ReadLine());
+                    int quantidade = int.Parse(Console.ReadLine()!);
 
                     Console.WriteLine("Escolha a forma de pagamento (0 - Dinheiro, 1 - CartaoDeDebito, 2 - CartaoDeCredito, 3 - PIX):");
-                    FormaPagamento formaPagamento = (FormaPagamento)int.Parse(Console.ReadLine());
+                    int formaPagamentoInt = int.Parse(Console.ReadLine()!);
 
-                    vendaRepository.AdicionarVenda(clienteID, produtoID, quantidade, formaPagamento);
-                    ContinueVendas();
+                    if (formaPagamentoInt < 0 || formaPagamentoInt > 3)
+                    {
+                        Console.WriteLine("Forma de pagamento inválida.");
+                        menusContinuar.ContinueVendas();
+                    }
+                    else{
+                        FormaPagamento formaPagamento = (FormaPagamento)formaPagamentoInt;
+                        vendaRepository.AdicionarVenda(clienteID, produtoID, quantidade, formaPagamento);
+                        menusContinuar.ContinueVendas();
+                    }
                     break;
-
+                    
                 case 2:
                     Console.WriteLine("Lista de todas as vendas:");
                     vendaRepository.MostrarVendas(vendaRepository.ObterTodasVendas());
-                    ContinueVendas();
+                    menusContinuar.ContinueVendas();
                     break;
 
                 case 3:
                     Console.WriteLine("Digite o ID do cliente:");
-                    int clienteIDFiltro = int.Parse(Console.ReadLine());
+                    int clienteIDFiltro = int.Parse(Console.ReadLine()!);
 
                     Console.WriteLine("Vendas do cliente:");
                     vendaRepository.MostrarVendas(vendaRepository.BuscarPorCliente(clienteIDFiltro));
-                    ContinueVendas();
+                    menusContinuar.ContinueVendas();
                     break;
 
                 case 4:
                     Console.WriteLine("Digite o ID do produto:");
-                    int produtoIDFiltro = int.Parse(Console.ReadLine());
+                    int produtoIDFiltro = int.Parse(Console.ReadLine()!);
 
                     Console.WriteLine("Vendas do produto:");
                     vendaRepository.MostrarVendas(vendaRepository.BuscarPorProduto(produtoIDFiltro));
-                    ContinueVendas();
+                    menusContinuar.ContinueVendas();
                     break;
 
                 case 5:
                     sair = true;
-                    ExibirMenu();
+                    menuPrincipal.ExibirMenu();
                     break;
 
                 default:
                     Console.WriteLine("Opção inválida. Tente novamente.");
-                    ContinueVendas();
+                    menusContinuar.ContinueVendas();
                     break;
             }
         }
     }
-
-    // MENUS DE CONTINUAR
-    public void ContinueCliente()
-    {
-        Console.WriteLine("Deseja continuar no cliente?");
-        Console.WriteLine("1. Sim");
-        Console.WriteLine("2. Voltar para o menu principal");
-        string escolhaStr = Console.ReadLine();
-
-        if (!int.TryParse(escolhaStr, out int escolha))
-        {
-            Console.WriteLine("Escolha inválida! Digite um número correspondente à opção desejada.");
-            ExibirMenuCliente();
-        }
-        
-        switch (escolha)
-        {
-            case 1:
-                ExibirMenuCliente();
-                break;
-
-            case 2:
-                ExibirMenu();
-                break; 
-
-            default:
-                Console.WriteLine("Opção inválida.");
-                ContinueCliente(); 
-                break; 
-        }
-    }
-
-    public void ContinueProduto()
-    {
-        Console.WriteLine("Deseja continuar no produto?");
-        Console.WriteLine("1. Sim");
-        Console.WriteLine("2. Voltar para o menu principal");
-        string escolhaStr = Console.ReadLine();
-
-        if (!int.TryParse(escolhaStr, out int escolha))
-        {
-            Console.WriteLine("Escolha inválida! Digite um número correspondente à opção desejada.");
-            ExibirMenuCliente();
-        }
-        
-        switch (escolha)
-        {
-            case 1:
-                ExibirMenuProduto();
-                break;
-
-            case 2:
-                ExibirMenu();
-                break; 
-
-            default:
-                Console.WriteLine("Opção inválida.");
-                ContinueProduto(); 
-                break; 
-        }
-    }
-    public void ContinueVendas()
-    {
-        Console.WriteLine("Deseja continuar na aba de VENDAS?");
-        Console.WriteLine("1. Sim");
-        Console.WriteLine("2. Voltar para o menu principal");
-        string escolhaStr = Console.ReadLine();
-
-        if (!int.TryParse(escolhaStr, out int escolha))
-        {
-            Console.WriteLine("Escolha inválida! Digite um número correspondente à opção desejada.");
-            ContinueVendas();
-        }
-
-        switch (escolha)
-        {
-            case 1:
-                ExibirMenuVendas();
-                break;
-
-            case 2:
-                ExibirMenu();
-                break;
-
-            default:
-                Console.WriteLine("Opção inválida.");
-                ContinueVendas();
-                break;
-        }
-    }
-}
+}    

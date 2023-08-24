@@ -26,7 +26,7 @@ public class ProdutoService
 
     public void ExcluirProduto(List<Produto> produtos, int id)
     {
-        Produto produtoExistente = produtos.Find(p => p.Id == id);
+        var produtoExistente = produtos.Find(p => p.Id == id);
         if (produtoExistente != null)
         {
             produtos.Remove(produtoExistente);
@@ -37,7 +37,11 @@ public class ProdutoService
         }
     }
 
-
+    public static bool ProdutoExiste(int produtoId)
+    {
+        Produto produto = ProdutoRepository.ObterProdutoPorId(produtoId);
+        return produto != null;
+    }
     public static Produto MostrarProduto(int id)
     {
         return ProdutoRepository.ObterProdutoPorId(id);

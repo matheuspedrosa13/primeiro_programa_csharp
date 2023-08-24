@@ -3,52 +3,52 @@ using System.Collections.Generic;
 
 public class VendaService
 {
-    private VendaRepository vendaRepository;
+    private VendaRepository vendaRepository = new VendaRepository();
 
-    public VendaService(VendaRepository repository)
-    {
-        vendaRepository = repository;
-    }
-
-    public void RealizarNovaVenda(int clienteID, int produtoID, int quantidade, FormaPagamento formaPagamento)
+    public bool RealizarNovaVenda(int clienteID, int produtoID, int quantidade, FormaPagamento formaPagamento)
     {
         Cliente cliente = ClienteService.MostrarCliente(clienteID);
         Produto produto = ProdutoService.MostrarProduto(produtoID);
+        bool clienteExiste = ClienteService.ClienteExiste(clienteID);
+        bool produtoExiste = ProdutoService.ProdutoExiste(produtoID);
 
-        if (cliente == null || produto == null)
+        if (!clienteExiste)
         {
-            Console.WriteLine("Cliente ou produto inválido(s).");
-            return;
+            Console.WriteLine("O cliente não existe.");
+            return false;
+        }
+
+        if (!produtoExiste)
+        {
+            Console.WriteLine("O produto não existe.");
+            return false;
         }
 
         if (quantidade <= 0)
         {
             Console.WriteLine("Quantidade inválida.");
-            return;
+            return false;
         }
 
         if (quantidade > produto.QuantidadeEstoque)
         {
             Console.WriteLine("Quantidade indisponível em estoque.");
-            return;
+            return false;
         }
 
         if (produto.QuantidadeEstoque == 0)
         {
             Console.WriteLine("Não tem estoque o suficiente");
-            return;
+            return false;
         }
 
         if (produto.Status == false)
         {
             Console.WriteLine("Produto indisponível!");
-            return;
+            return false;
         }
-        
-        vendaRepository.AdicionarVenda(clienteID, produtoID, quantidade, formaPagamento);
 
-
-        Console.WriteLine("Venda realizada com sucesso!");
+        return true;
     }
 
 

@@ -4,11 +4,11 @@ using System.Collections.Generic;
 public class Produto{
     public int Id { get; set; }
     public bool Status {get; set;}
-    public string Nome { get; set; }
+    public string? Nome { get; set; }
     private decimal preco;
     private int quantidadeEstoque;
-    public string Fabricante { get; set; }
-    public string DescricaoTecnica { get; set; }
+    public string? Fabricante { get; set; }
+    public string? DescricaoTecnica { get; set; }
 
     public decimal Preco{
         get { return preco; }
@@ -34,7 +34,7 @@ public class Produto{
         }
     }
 
-    public Produto(int id, bool status, string nome, decimal preco, int quantidadeEstoque, string fabricante, string descricaoTecnica){
+    public Produto(int id, bool status, string? nome, decimal preco, int quantidadeEstoque, string? fabricante, string? descricaoTecnica){
         Id = id;
         Status = status;
         Nome = nome;
@@ -43,10 +43,4 @@ public class Produto{
         Fabricante = fabricante;
         DescricaoTecnica = descricaoTecnica;
     }
-
-
 }
-
-
-
-

@@ -2,7 +2,7 @@
 {
     static void Main(string[] args)
     {   
-        Menus menu = new Menus();
+        Menu menu = new Menu();
         menu.ExibirMenu();
     }
 }

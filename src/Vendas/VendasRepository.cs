@@ -3,19 +3,25 @@ using System.Collections.Generic;
 public class VendaRepository
 {
     private static VendasDatabase database = new VendasDatabase();
+    private static VendaService service = new VendaService();
 
     private int proximoID = 1;
 
     public void AdicionarVenda(int clienteID, int produtoID, int quantidade, FormaPagamento formaPagamento)
     {
-        Venda novaVenda = new Venda(clienteID, produtoID, quantidade, formaPagamento)
-        {
-            Data = DateTime.Now
-        };
-        
-        clienteID = proximoID;
-        database.vendas.Add(novaVenda);
-        proximoID++;
+        bool verificacao = service.RealizarNovaVenda(clienteID, produtoID, quantidade, formaPagamento);
+        if(verificacao == true){
+            Venda novaVenda = new Venda(clienteID, produtoID, quantidade, formaPagamento)
+            {
+                Data = DateTime.Now
+            };
+            clienteID = proximoID;
+            database.vendas.Add(novaVenda);
+            proximoID++;
+            Console.WriteLine("Venda realizada com sucesso!");
+        }else{
+            Console.WriteLine("Venda não realizada!");
+        }
     }
 
     public void MostrarVendas(List<Venda> vendas)

@@ -83,6 +83,12 @@ public class ClienteService{
         }
     }
 
+    public static bool ClienteExiste(int clienteID)
+    {
+        Cliente cliente = ClienteRepository.ObterClientePorId(clienteID);
+        return cliente != null;
+    }
+
     public static bool ExisteCliente(int id)
     {
         foreach (Cliente cliente in database.clientes)
