@@ -4,6 +4,7 @@ using System.Collections.Generic;
 public class VendaService
 {
     private VendaRepository vendaRepository = new VendaRepository();
+    private static ProdutoService produtoService = new ProdutoService();
 
     public bool RealizarNovaVenda(int clienteID, int produtoID, int quantidade, FormaPagamento formaPagamento)
     {
@@ -47,7 +48,8 @@ public class VendaService
             Console.WriteLine("Produto indisponível!");
             return false;
         }
-
+        
+        produtoService.DiminuirQuantidade(produtoID, quantidade);
         return true;
     }
 

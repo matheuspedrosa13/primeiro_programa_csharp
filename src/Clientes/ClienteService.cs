@@ -106,17 +106,20 @@ public class ClienteService{
         return ClienteRepository.ObterClientePorId(id);
     }
     
-    public void BuscarPorCPF(string cpf)
+    public Cliente BuscarPorCPF(string cpf)
     {
         foreach (Cliente cliente in database.clientes)
         {
             if (cliente.CPF == cpf)
             {
-                ClienteRepository.MostrarInformacoes(cliente);
-                break;
+                return cliente; // Retorna o cliente encontrado
             }
         }
+
+        return null; // Retorna null se o cliente não for encontrado
     }
+
+
 
     public void BuscarPorNome(string nome)
     {

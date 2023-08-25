@@ -2,7 +2,6 @@ using System.Reflection;
 public class ProdutoRepository{
 
     private static ProdutoDatabase database = new ProdutoDatabase();
-    private static ProdutoService service = new ProdutoService();
 
 
     public int ObterQuantidadeEstoque(int id){

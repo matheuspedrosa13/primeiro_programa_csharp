@@ -1,7 +1,6 @@
 public class ProdutoService
 {   
     ProdutoRepository produtoRepo = new ProdutoRepository();    
-    private static ProdutoDatabase database = new ProdutoDatabase();
 
     public void AtualizarProduto(int id, string coluna, object novoValor)
     {
@@ -22,6 +21,11 @@ public class ProdutoService
         }
 
         produtoRepo.AtualizarProduto(id, coluna, novoValor);
+    }
+
+    public void DiminuirQuantidade(int id, int valoradiminuir){
+        int quantidade = produtoRepo.ObterQuantidadeEstoque(id);
+        produtoRepo.AtualizarProduto(id, "QuantidadeEstoque", quantidade - valoradiminuir);
     }
 
     public void ExcluirProduto(List<Produto> produtos, int id)

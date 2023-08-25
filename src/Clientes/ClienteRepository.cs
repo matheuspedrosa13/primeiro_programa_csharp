@@ -83,11 +83,10 @@ public class ClienteRepository
         service.BuscarPorId(id);
     }
 
-    public void BuscarPorCPF(string cpf)
+    public Cliente BuscarPorCPF(string cpf)
     {
-        service.BuscarPorCPF(cpf);
+        return service.BuscarPorCPF(cpf); // Chama o método no repositório
     }
-
     public void BuscarPorNome(string nome)
     {
         service.BuscarPorNome(nome);
