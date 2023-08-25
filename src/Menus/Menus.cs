@@ -265,11 +265,11 @@ public class Menu
                         break;
                     }
 
-                    Console.WriteLine("Digite o nome do cliente:");
+                    Console.WriteLine("Digite o nome do cliente (sem acento):");
                     var nome = Console.ReadLine();
 
-                    Console.WriteLine("Digite o CPF do cliente:");
-                    var cpf = Console.ReadLine();
+                    Console.WriteLine("Digite o CPF do cliente (sem pontos ou traços):");
+                    string cpf = Console.ReadLine();
 
                     Console.WriteLine("Digite o sexo (M para Masculino, F para Feminino, P para Prefiro Não Comentar):");
                     var sexo = Console.ReadLine();
@@ -281,7 +281,7 @@ public class Menu
                     Console.WriteLine("Digite o email do cliente:");
                     var email = Console.ReadLine();
 
-                    Cliente novoCliente = new Cliente(id, true, nome!, cpf!, sexoReal, telefone!, email!);
+                    Cliente novoCliente = new Cliente(id, true, nome!, cpf, sexoReal, telefone!, email!);
 
                     bool clienteAdicionado = clienteService.addCliente(novoCliente);
 
@@ -313,7 +313,7 @@ public class Menu
                     break;
 
                 case 4:
-                    Console.WriteLine("Digite o nome do cliente:");
+                    Console.WriteLine("Digite o nome do cliente (sem acento):");
                     var nome2 = Console.ReadLine();
                     clienteRepo.BuscarPorNome(nome2!);
                     ContinueCliente();
@@ -321,8 +321,8 @@ public class Menu
                 
                 case 5:
                     Console.WriteLine("Digite o CPF do cliente:");
-                    var cpf2 = Console.ReadLine();
-                    Cliente clienteEncontrado = clienteService.BuscarPorCPF(cpf2); // Chama o serviço
+                    string cpf2 = Console.ReadLine();
+                    Cliente clienteEncontrado = clienteService.BuscarPorCPF(cpf2);
 
                     if (clienteEncontrado != null)
                     {

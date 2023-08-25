@@ -1,8 +1,14 @@
 using System.Text.RegularExpressions;
-
+using System.Globalization;
+using System.Text;
 public class ClienteService{
     private static ClientesDatabase database = new ClientesDatabase();
     private static ClienteRepository clienteRepository = new ClienteRepository();
+
+    
+    public static ClientesDatabase clientesDatabase = new ClientesDatabase();
+    List<Cliente> clientes = clientesDatabase.Clientes();
+
 
 
     public bool addCliente(Cliente cliente)
@@ -73,7 +79,7 @@ public class ClienteService{
     
     public void BuscarPorId(int id)
     {
-        foreach (Cliente cliente in database.clientes)
+        foreach (Cliente cliente in clientesDatabase.Clientes())
         {
             if (cliente.Id == id)
             {
@@ -91,7 +97,7 @@ public class ClienteService{
 
     public static bool ExisteCliente(int id)
     {
-        foreach (Cliente cliente in database.clientes)
+        foreach (Cliente cliente in clientesDatabase.Clientes())
         {
             if (cliente.Id == id)
             {
@@ -108,31 +114,29 @@ public class ClienteService{
     
     public Cliente BuscarPorCPF(string cpf)
     {
-        foreach (Cliente cliente in database.clientes)
-        {
-            if (cliente.CPF == cpf)
-            {
-                return cliente; // Retorna o cliente encontrado
-            }
-        }
-
-        return null; // Retorna null se o cliente não for encontrado
-    }
-
-
-
-    public void BuscarPorNome(string nome)
-    {
-        foreach (Cliente cliente in database.clientes)
-        {
-            if (cliente.Nome.Equals(nome, StringComparison.OrdinalIgnoreCase))
-            {
+        foreach (Cliente cliente in clientesDatabase.Clientes()){
+            if(cliente.CPF == cpf){
                 ClienteRepository.MostrarInformacoes(cliente);
                 break;
             }
         }
+        return null!;
     }
 
+    public void BuscarPorNome(string nome)
+    {
+        foreach (Cliente cliente in clientesDatabase.Clientes())
+        {
+            if (cliente.Nome == nome)
+            {
+                ClienteRepository.MostrarInformacoes(cliente);
+                return;
+            }
+        }
+
+        Console.WriteLine($"{nome}");
+        Console.WriteLine("Cliente não encontrado");
+    }
 
     public bool ValidarSexoOpcao(string opcao)
     {

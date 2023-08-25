@@ -1,20 +1,21 @@
 public class ClienteRepository
 {
-    private static ClientesDatabase database = new ClientesDatabase();
     private static ClienteService service = new ClienteService();
+    public static ClientesDatabase clientesDatabase = new ClientesDatabase();
 
 
     public static bool AddCliente(Cliente cliente)
     {
-        database.clientes.Add(cliente);
+        clientesDatabase.Clientes().Add(cliente);
+
         return true;
     }
 
     public static bool AtualizarPorId(int id, string novoNome, string novoEmail, string novoTelefone)
     {
-        for (int i = 0; i < database.clientes.Count; i++)
+        for (int i = 0; i < clientesDatabase.Clientes().Count; i++)
         {
-            if (database.clientes[i].Id == id)
+            if (clientesDatabase.Clientes()[i].Id == id)
             {
                 if (!ClienteService.TemSobrenome(novoNome) || !ClienteService.NaoContemNumeros(novoNome))
                 {
@@ -22,7 +23,7 @@ public class ClienteRepository
                     return false;
                 }
 
-                Cliente clienteAtualizado = database.clientes[i];
+                Cliente clienteAtualizado = clientesDatabase.Clientes()[i];
                 clienteAtualizado.Nome = novoNome;
                 clienteAtualizado.Email = novoEmail;
                 clienteAtualizado.Telefone = novoTelefone;
@@ -35,7 +36,7 @@ public class ClienteRepository
 
 
     public static bool AlterarStatusPorId(int id, bool novoStatus){
-        foreach (Cliente cliente in database.clientes)
+        foreach (Cliente cliente in clientesDatabase.Clientes())
         {
             if (cliente.Id == id){
                 cliente.Status = novoStatus;
@@ -58,7 +59,7 @@ public class ClienteRepository
 
     public static void MostrarTodosClientes()
     {
-        foreach (Cliente cliente in database.clientes)
+        foreach (Cliente cliente in clientesDatabase.Clientes())
         {
             MostrarInformacoes(cliente);
             Console.WriteLine();
@@ -67,7 +68,7 @@ public class ClienteRepository
 
     public static Cliente ObterClientePorId(int id)
     {
-        foreach (Cliente cliente in database.clientes)
+        foreach (Cliente cliente in clientesDatabase.Clientes())
         {
             if (cliente.Id == id)
             {
@@ -95,7 +96,7 @@ public class ClienteRepository
 
     public static bool ExisteID(int id)
     {
-        foreach (Cliente cliente in database.clientes)
+        foreach (Cliente cliente in clientesDatabase.Clientes())
         {
             if (cliente.Id == id)
             {
@@ -108,7 +109,7 @@ public class ClienteRepository
 
     public static bool ExisteEmail(string email)
     {
-        foreach (Cliente cliente in database.clientes){
+        foreach (Cliente cliente in clientesDatabase.Clientes()){
             if (cliente.Email.Equals(email, StringComparison.OrdinalIgnoreCase)){
                 return true;
             }
@@ -117,7 +118,7 @@ public class ClienteRepository
     }
     public static bool ExisteTelefone(string telefone)
     {
-        foreach (Cliente cliente in database.clientes){
+        foreach (Cliente cliente in clientesDatabase.Clientes()){
             if (cliente.Telefone.Equals(telefone, StringComparison.OrdinalIgnoreCase)){
                 return true;
             }
@@ -126,7 +127,7 @@ public class ClienteRepository
     }
     public static bool ExisteCPF(string cpf)
     {
-        foreach (Cliente cliente in database.clientes){
+        foreach (Cliente cliente in clientesDatabase.Clientes()){
             if (cliente.CPF.Equals(cpf, StringComparison.OrdinalIgnoreCase)){
                 return true;
             }
