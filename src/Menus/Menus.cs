@@ -652,3 +652,17 @@ public class Menu
         }
     }
 }
+
+// TODO: Adicionar opção de sair
+	// Cliente
+	// 	Dividir o DDD do telefone------------------
+	// 	Mensagem de retorno caso o cliente nao seja localizado
+	// 	Buscar por nome esta exibindo oq eu digitei
+	// 	Adicionar busca por parte do nome
+	// 	Deixar buscas case insensitive
+	// 	Retirar inserção do ID, manter isso de forma automatica
+	// 	Refatorar atualização de status do cliente-------------------
+	// 	Na atualização, dar a opção do q é desejado atualizar----------------
+	// 	Busca de clientes por nome não funciona------------------
+	// 	Busca de clientes por ID nao funciona------------------
+	// 	Busca de clientes por CPF nao funciona------------------
