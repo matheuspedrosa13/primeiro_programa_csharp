@@ -1,6 +1,5 @@
 using System.Text.RegularExpressions;
-using System.Globalization;
-using System.Text;
+
 public class ClienteService{
     private static ClientesDatabase database = new ClientesDatabase();
     private static ClienteRepository clienteRepository = new ClienteRepository();
@@ -34,12 +33,12 @@ public class ClienteService{
             return false;
         }
         if(!ValidarTelefone(cliente.Telefone)){
-            Console.Write("Telefone deve seguir o padrão: (XX)XXXXX-XXXX\n");
+            Console.Write("Telefone deve seguir o padrão, 11 dígitos (se for número pessoal) ou 10 dígitos (se for número fixo)\n");
             return false;
         }
 
         if(!ValidarEmail(cliente.Email)){
-            Console.Write("Email não está no formato correto\n");
+            Console.Write("Email não está no formato correto, ex: xxxxxx@xxxxx.xxx\n");
             return false;
         }
 
@@ -81,14 +80,22 @@ public class ClienteService{
     {
         foreach (Cliente cliente in clientesDatabase.Clientes())
         {
+            ClienteRepository.MostrarInformacoes(cliente);
             if (cliente.Id == id)
             {
+                Console.WriteLine(cliente.Id);
                 ClienteRepository.MostrarInformacoes(cliente);
                 break;
             }
         }
     }
-
+    public void contarClientes(List<Cliente> encontrados){
+        if (encontrados.Count == 0)
+        {
+            Console.WriteLine("Nenhum cliente encontrado.");
+            return;
+        }
+    }
     public static bool ClienteExiste(int clienteID)
     {
         Cliente cliente = ClienteRepository.ObterClientePorId(clienteID);
@@ -112,7 +119,7 @@ public class ClienteService{
         return ClienteRepository.ObterClientePorId(id);
     }
     
-    public Cliente BuscarPorCPF(string cpf)
+    public List<Cliente> BuscarPorCPF(string cpf)
     {
         foreach (Cliente cliente in clientesDatabase.Clientes()){
             if(cliente.CPF == cpf){
@@ -150,17 +157,11 @@ public class ClienteService{
 
     public bool ValidarTelefone(string telefone)
     {
-        Regex Rgx = new Regex(@"^\d{11}$");
+        Regex rgx = new Regex(@"^\d{10,11}$");
 
-        if (!Rgx.IsMatch(telefone))
-        {
-            return false;
-        }
-        else
-        {
-            return true;
-        }
+        return rgx.IsMatch(telefone);
     }
+
 
     public bool ValidarEmail(string email)
     {

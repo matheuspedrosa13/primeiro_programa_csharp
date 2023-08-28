@@ -322,7 +322,8 @@ public class Menu
                 case 5:
                     Console.WriteLine("Digite o CPF do cliente:");
                     string cpf2 = Console.ReadLine();
-                    Cliente clienteEncontrado = clienteService.BuscarPorCPF(cpf2);
+                    var clienteEncontrado = clienteRepo.BuscarPorCPF(cpf2);
+                    Console.WriteLine(clienteEncontrado);
 
                     if (clienteEncontrado != null)
                     {
@@ -330,6 +331,7 @@ public class Menu
                     }
                     else
                     {
+                        Console.WriteLine(clienteEncontrado);
                         Console.WriteLine("Cliente não encontrado.");
                     }
 
@@ -344,30 +346,68 @@ public class Menu
 
                     if (int.TryParse(idAtualizarStr, out int idAtualizar))
                     {
-                        Console.WriteLine("Digite o novo nome do cliente (com sobrenome):");
-                        var novoNome = Console.ReadLine();
+                        Console.WriteLine("Escolha o que deseja atualizar:");
+                        Console.WriteLine("1. Nome");
+                        Console.WriteLine("2. Email");
+                        Console.WriteLine("3. Telefone");
+                        var escolha1 = Console.ReadLine();
 
-                        if (!ClienteService.TemSobrenome(novoNome!))
+                        switch (escolha1)
                         {
-                            Console.WriteLine("O nome deve ter pelo menos duas palavras!");
-                            break;
-                        }
+                            case "1":
+                                Console.WriteLine("Digite o novo nome do cliente (com sobrenome):");
+                                var novoNome = Console.ReadLine();
 
-                        Console.WriteLine("Digite o novo email do cliente:");
-                        var novoEmail = Console.ReadLine();
+                                if (!ClienteService.TemSobrenome(novoNome))
+                                {
+                                    Console.WriteLine("O nome deve ter pelo menos duas palavras!");
+                                    break;
+                                }
 
-                        Console.WriteLine("Digite o novo telefone do cliente: ((XX)XXXXX-XXXX)");
-                        var novoTelefone = Console.ReadLine();
+                                bool clienteAtualizadoNome = ClienteRepository.AtualizarPorId(idAtualizar, novoNome);
+                                if (clienteAtualizadoNome)
+                                {
+                                    Console.WriteLine("Nome do cliente atualizado com sucesso!");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Não foi possível atualizar o nome do cliente.");
+                                }
+                                break;
 
-                        bool clienteAtualizado = ClienteRepository.AtualizarPorId(idAtualizar, novoNome!, novoEmail!, novoTelefone!);
+                            case "2":
+                                Console.WriteLine("Digite o novo email do cliente:");
+                                var novoEmail = Console.ReadLine();
+                                
+                                bool clienteAtualizadoEmail = ClienteRepository.AtualizarPorId(idAtualizar, null, novoEmail);
+                                if (clienteAtualizadoEmail)
+                                {
+                                    Console.WriteLine("Email do cliente atualizado com sucesso!");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Não foi possível atualizar o email do cliente.");
+                                }
+                                break;
 
-                        if (clienteAtualizado)
-                        {
-                            Console.WriteLine("Informações do cliente atualizadas com sucesso!");
-                        }
-                        else
-                        {
-                            Console.WriteLine("Não foi possível atualizar as informações do cliente.");
+                            case "3":
+                                Console.WriteLine("Digite o novo telefone do cliente: ((XX)XXXXX-XXXX)");
+                                var novoTelefone = Console.ReadLine();
+                                
+                                bool clienteAtualizadoTelefone = ClienteRepository.AtualizarPorId(idAtualizar, null, null, novoTelefone);
+                                if (clienteAtualizadoTelefone)
+                                {
+                                    Console.WriteLine("Telefone do cliente atualizado com sucesso!");
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Não foi possível atualizar o telefone do cliente.");
+                                }
+                                break;
+
+                            default:
+                                Console.WriteLine("Escolha inválida.");
+                                break;
                         }
                     }
                     else
@@ -377,17 +417,35 @@ public class Menu
                     ContinueCliente();
                     break;
 
+
                 case 7:
                     Console.WriteLine("Digite o id do cliente para alterar o status:");
                     var idStatusStr = Console.ReadLine();
 
                     if (int.TryParse(idStatusStr, out int idStatus))
                     {
-                        Console.WriteLine("Digite o novo status (true ou false):");
+                        Console.WriteLine("Digite o novo status (1 para Ativo ou 2 para Inativo):");
                         var novoStatusStr = Console.ReadLine();
 
-                        if (bool.TryParse(novoStatusStr, out bool novoStatus))
+                        if (int.TryParse(novoStatusStr, out int novoStatusOpcao))
                         {
+                            bool novoStatus;
+                            
+                            if (novoStatusOpcao == 1)
+                            {
+                                novoStatus = true;
+                            }
+                            else if (novoStatusOpcao == 2)
+                            {
+                                novoStatus = false;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Opção de status inválida. Use 1 para Ativo ou 2 para Inativo.");
+                                ContinueCliente();
+                                break;
+                            }
+
                             bool statusAlterado = ClienteRepository.AlterarStatusPorId(idStatus, novoStatus);
 
                             if (statusAlterado)
@@ -401,7 +459,7 @@ public class Menu
                         }
                         else
                         {
-                            Console.WriteLine("Status inválido! Digite 'true' para ativo ou 'false' para inativo.");
+                            Console.WriteLine("Opção inválida! Digite 1 para Ativo ou 2 para Inativo.");
                         }
                     }
                     else
@@ -410,6 +468,7 @@ public class Menu
                     }
                     ContinueCliente();
                     break;
+
 
                     case 8:
                         sair = true;
