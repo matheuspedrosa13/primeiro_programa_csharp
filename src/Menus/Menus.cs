@@ -38,6 +38,7 @@ public class Menu
             Console.WriteLine("1. Aba Cliente");
             Console.WriteLine("2. Aba Produto");
             Console.WriteLine("3. Aba Vendas");
+            Console.WriteLine("4. Sair do programa");
 
             string escolhaStr = Console.ReadLine()!;
 
@@ -56,6 +57,8 @@ public class Menu
                     break;
                 case 3: 
                     ExibirMenuVendas();
+                    break;
+                case 4: 
                     break;
             }
         }
@@ -86,15 +89,6 @@ public class Menu
             switch (escolha)
             {
                 case 1:
-                    Console.WriteLine("Digite o id do produto:");
-                    var idStr = Console.ReadLine();
-                    
-                    if (!int.TryParse(idStr, out int id))
-                    {
-                        Console.WriteLine("ID inválido! Certifique-se de digitar um número inteiro.");
-                        break;
-                    }
-
                     Console.WriteLine("Digite o nome do produto:");
                     var nome = Console.ReadLine();
 
@@ -115,10 +109,12 @@ public class Menu
 
                     Console.WriteLine("Digite a descrição do produto:");
                     var descricao = Console.ReadLine();
+                    int obterId = produtoRepo.ObterId();
 
-                    Produto novoProduto = new Produto(id, true, nome, precoDecimal, estoqueReal, fabricante, descricao);
+                    Produto novoProduto = new Produto(obterId, true, nome, precoDecimal, estoqueReal, fabricante, descricao);
 
                     produtoRepo.CadastrarProduto(novoProduto);
+                    Console.WriteLine();
                     ContinueProduto();
                     break;
 

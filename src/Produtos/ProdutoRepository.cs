@@ -5,7 +5,7 @@ public class ProdutoRepository{
 
 
     public int ObterQuantidadeEstoque(int id){
-        var produtoQuantidade = database.produto.Find(produto => produto.Id == id);
+        var produtoQuantidade = database.Produto().Find(produto => produto.Id == id);
         return produtoQuantidade!.QuantidadeEstoque;
     }   
     public bool CadastrarProduto(Produto produto){
@@ -17,11 +17,11 @@ public class ProdutoRepository{
                 return false;
             }
         }
-        database.produto.Add(produto);
+        database.Produto().Add(produto);
         return true;
     }
     public bool AlterarStatusPorId(int id, bool novoStatus){
-        foreach (Produto produto in database.produto)
+        foreach (Produto produto in database.Produto())
         {
             if (produto.Id == id){
                 produto.Status = novoStatus;
@@ -30,14 +30,20 @@ public class ProdutoRepository{
         }
         return false;
     }
+
+     public int ObterId(){
+        return database.Produto().Count + 1;
+    }
+
+
     public List<Produto> ListarProdutos()
     {
-        return database.produto;
+        return database.Produto();
     }
 
     public void BuscarPorId(int id)
     {
-        var produtoEncontrado = database.produto.Find(produto => produto.Id == id);
+        var produtoEncontrado = database.Produto().Find(produto => produto.Id == id);
         if(produtoEncontrado!.Status == true){
             Console.WriteLine("\nInformações do Produto:\n");
             Console.WriteLine($"Id: {produtoEncontrado.Id}\nAtivo: Sim\nNome: {produtoEncontrado.Nome}\nPreço: {produtoEncontrado.Preco}\nEstoque: {produtoEncontrado.QuantidadeEstoque}\nFabricante: {produtoEncontrado.Fabricante}\nDescrição Técnica: {produtoEncontrado.DescricaoTecnica}");
@@ -51,7 +57,7 @@ public class ProdutoRepository{
 
     public bool AtualizarProduto(int id, string? coluna, object novoValor)
     {
-        var produtoExistente = database.produto.Find(p => p.Id == id);
+        var produtoExistente = database.Produto().Find(p => p.Id == id);
         if (produtoExistente != null)
         {
             var propertyInfo = typeof(Produto).GetProperty(coluna!);
@@ -72,12 +78,12 @@ public class ProdutoRepository{
 
     public List<Produto> BuscarPorNome(string? nome)
     {
-        return database.produto.FindAll(produto => produto.Nome!.Equals(nome, StringComparison.OrdinalIgnoreCase));
+        return database.Produto().FindAll(produto => produto.Nome!.Equals(nome, StringComparison.OrdinalIgnoreCase));
     }
 
     public static Produto ObterProdutoPorId(int id)
     {
-        foreach (Produto produto in database.produto)
+        foreach (Produto produto in database.Produto())
         {
             if (produto.Id == id)
             {

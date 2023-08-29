@@ -12,3 +12,17 @@ C:\Users\t60811\Desktop\CSHARP\primeiro_programa_csharp\obj\Debug\net7.0\refint\
 C:\Users\t60811\Desktop\CSHARP\primeiro_programa_csharp\obj\Debug\net7.0\projeto_produto.pdb
 C:\Users\t60811\Desktop\CSHARP\primeiro_programa_csharp\obj\Debug\net7.0\projeto_produto.genruntimeconfig.cache
 C:\Users\t60811\Desktop\CSHARP\primeiro_programa_csharp\obj\Debug\net7.0\ref\projeto_produto.dll
+C:\Users\Aluno Temp\Desktop\CSHARP\primeiro_programa_csharp\bin\Debug\net7.0\projeto_produto.exe
+C:\Users\Aluno Temp\Desktop\CSHARP\primeiro_programa_csharp\bin\Debug\net7.0\projeto_produto.deps.json
+C:\Users\Aluno Temp\Desktop\CSHARP\primeiro_programa_csharp\bin\Debug\net7.0\projeto_produto.runtimeconfig.json
+C:\Users\Aluno Temp\Desktop\CSHARP\primeiro_programa_csharp\bin\Debug\net7.0\projeto_produto.dll
+C:\Users\Aluno Temp\Desktop\CSHARP\primeiro_programa_csharp\bin\Debug\net7.0\projeto_produto.pdb
+C:\Users\Aluno Temp\Desktop\CSHARP\primeiro_programa_csharp\obj\Debug\net7.0\projeto_produto.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Aluno Temp\Desktop\CSHARP\primeiro_programa_csharp\obj\Debug\net7.0\projeto_produto.AssemblyInfoInputs.cache
+C:\Users\Aluno Temp\Desktop\CSHARP\primeiro_programa_csharp\obj\Debug\net7.0\projeto_produto.AssemblyInfo.cs
+C:\Users\Aluno Temp\Desktop\CSHARP\primeiro_programa_csharp\obj\Debug\net7.0\projeto_produto.csproj.CoreCompileInputs.cache
+C:\Users\Aluno Temp\Desktop\CSHARP\primeiro_programa_csharp\obj\Debug\net7.0\projeto_produto.dll
+C:\Users\Aluno Temp\Desktop\CSHARP\primeiro_programa_csharp\obj\Debug\net7.0\refint\projeto_produto.dll
+C:\Users\Aluno Temp\Desktop\CSHARP\primeiro_programa_csharp\obj\Debug\net7.0\projeto_produto.pdb
+C:\Users\Aluno Temp\Desktop\CSHARP\primeiro_programa_csharp\obj\Debug\net7.0\projeto_produto.genruntimeconfig.cache
+C:\Users\Aluno Temp\Desktop\CSHARP\primeiro_programa_csharp\obj\Debug\net7.0\ref\projeto_produto.dll
