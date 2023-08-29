@@ -38,7 +38,7 @@ public class ClienteService{
         }
 
         if(!ValidarEmail(cliente.Email)){
-            Console.Write("Email não está no formato correto, ex: xxxxxx@xxxxx.xxx\n");
+            Console.WriteLine("Email deve estar no padrão. Ex: xxxxx@xxxx.xxx");
             return false;
         }
 
@@ -57,7 +57,7 @@ public class ClienteService{
             return false;
         }
 
-        if(ClienteRepository.ExisteEmail(cliente.Email) == true){
+        if(clienteRepository.ExisteEmail(cliente.Email) == true){
             Console.Write("O email passado já está sendo usado\n");
             return false;
         }
@@ -89,12 +89,12 @@ public class ClienteService{
             }
         }
     }
-    public void contarClientes(List<Cliente> encontrados){
+    public bool contarClientes(List<Cliente> encontrados){
         if (encontrados.Count == 0)
         {
-            Console.WriteLine("Nenhum cliente encontrado.");
-            return;
+            return false;
         }
+        return true;
     }
     public static bool ClienteExiste(int clienteID)
     {

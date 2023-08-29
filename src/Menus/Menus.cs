@@ -256,15 +256,6 @@ public class Menu
 
             switch (escolha){
                 case 1:
-                    Console.WriteLine("Digite o id do cliente:");
-                    var idStr = Console.ReadLine();
-                    
-                    if (!int.TryParse(idStr, out int id))
-                    {
-                        Console.WriteLine("ID inválido! Certifique-se de digitar um número inteiro.");
-                        break;
-                    }
-
                     Console.WriteLine("Digite o nome do cliente (sem acento):");
                     var nome = Console.ReadLine();
 
@@ -280,14 +271,15 @@ public class Menu
 
                     Console.WriteLine("Digite o email do cliente:");
                     var email = Console.ReadLine();
-
-                    Cliente novoCliente = new Cliente(id, true, nome!, cpf, sexoReal, telefone!, email!);
+                    int obterId = clienteRepo.ObterId();
+                    Cliente novoCliente = new Cliente(obterId, true, nome!, cpf, sexoReal, telefone!, email!);
 
                     bool clienteAdicionado = clienteService.addCliente(novoCliente);
+                
 
                     if (!clienteAdicionado){
                         Console.WriteLine("Não foi possível adicionar o cliente.");
-                    }
+                    }   
                     ContinueCliente();
                     break;
 
@@ -378,32 +370,44 @@ public class Menu
                             case "2":
                                 Console.WriteLine("Digite o novo email do cliente:");
                                 var novoEmail = Console.ReadLine();
-                                
-                                bool clienteAtualizadoEmail = ClienteRepository.AtualizarPorId(idAtualizar, null, novoEmail);
-                                if (clienteAtualizadoEmail)
-                                {
-                                    Console.WriteLine("Email do cliente atualizado com sucesso!");
+                                if(clienteRepo.ExisteEmail(novoEmail) == true){
+                                    Console.WriteLine("Email já cadastrado no banco de dados");
+                                    break;
+                                }else if(clienteRepo.ValidarEmail(novoEmail) == false){
+                                    Console.WriteLine("Email deve estar no padrão. Ex: xxxxx@xxxx.xxx");
+                                    break;
+                                }else{
+                                    bool clienteAtualizadoEmail = ClienteRepository.AtualizarPorId(idAtualizar, null, novoEmail);
+                                    if (clienteAtualizadoEmail)
+                                    {
+                                        Console.WriteLine("Email do cliente atualizado com sucesso!");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Não foi possível atualizar o email do cliente.");
+                                    }
+                                    break;
                                 }
-                                else
-                                {
-                                    Console.WriteLine("Não foi possível atualizar o email do cliente.");
-                                }
-                                break;
 
                             case "3":
-                                Console.WriteLine("Digite o novo telefone do cliente: ((XX)XXXXX-XXXX)");
+                                Console.WriteLine("Digite o novo telefone do cliente, deve seguir o padrão, 11 dígitos (se for número pessoal) ou 10 dígitos (se for número fixo) e ser um número");
                                 var novoTelefone = Console.ReadLine();
                                 
                                 bool clienteAtualizadoTelefone = ClienteRepository.AtualizarPorId(idAtualizar, null, null, novoTelefone);
-                                if (clienteAtualizadoTelefone)
-                                {
-                                    Console.WriteLine("Telefone do cliente atualizado com sucesso!");
+                                if(clienteRepo.ValidarTelefone(novoTelefone) == true){
+                                    if (clienteAtualizadoTelefone)
+                                    {
+                                        Console.WriteLine("Telefone do cliente atualizado com sucesso!");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Não foi possível atualizar o telefone do cliente.");
+                                    }
+                                    break;
+                                }else{
+                                        Console.Write("Telefone deve seguir o padrão, 11 dígitos (se for número pessoal) ou 10 dígitos (se for número fixo)\n");
+                                    break;
                                 }
-                                else
-                                {
-                                    Console.WriteLine("Não foi possível atualizar o telefone do cliente.");
-                                }
-                                break;
 
                             default:
                                 Console.WriteLine("Escolha inválida.");
@@ -656,11 +660,11 @@ public class Menu
 // TODO: Adicionar opção de sair
 	// Cliente
 	// 	Dividir o DDD do telefone------------------
-	// 	Mensagem de retorno caso o cliente nao seja localizado
-	// 	Buscar por nome esta exibindo oq eu digitei
-	// 	Adicionar busca por parte do nome
-	// 	Deixar buscas case insensitive
-	// 	Retirar inserção do ID, manter isso de forma automatica
+	// 	Mensagem de retorno caso o cliente nao seja localizado---------------
+	// 	Buscar por nome esta exibindo oq eu digitei--------------
+	// 	Adicionar busca por parte do nome----------------
+	// 	Deixar buscas case insensitive----------------
+	// 	Retirar inserção do ID, manter isso de forma automatica-----------------
 	// 	Refatorar atualização de status do cliente-------------------
 	// 	Na atualização, dar a opção do q é desejado atualizar----------------
 	// 	Busca de clientes por nome não funciona------------------

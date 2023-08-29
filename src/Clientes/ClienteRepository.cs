@@ -11,6 +11,10 @@ public class ClienteRepository
         return true;
     }
 
+
+    public int ObterId(){
+        return clientesDatabase.Clientes().Count + 1;
+    }
     public static bool AtualizarPorId(int id, string novoNome = null, string novoEmail = null, string novoTelefone = null)
     {
         Cliente clienteParaAtualizar = clientesDatabase.Clientes().FirstOrDefault(client => client.Id == id);
@@ -118,13 +122,15 @@ public class ClienteRepository
             .Where(cliente => cliente.Nome.ToLower().Contains(nome.ToLower()))
             .ToList();
 
-        service.contarClientes(clientesEncontrados);
-
-        Console.WriteLine("Clientes encontrados com esse nome:\n");
-
-        foreach (var cliente in clientesEncontrados)
-        {
-            MostrarInformacoes(cliente);
+        bool contarClientes = service.contarClientes(clientesEncontrados);
+        if(contarClientes == false){
+            Console.WriteLine("Nenhum cliente encontrado.");
+        }else{
+            Console.WriteLine("Clientes encontrados com esse nome:\n");
+            foreach (var cliente in clientesEncontrados)
+            {
+                MostrarInformacoes(cliente);
+            }
         }
     }
 
@@ -147,7 +153,7 @@ public class ClienteRepository
     }
 
 
-    public static bool ExisteEmail(string email)
+    public bool ExisteEmail(string email)
     {
         foreach (Cliente cliente in clientesDatabase.Clientes()){
             if (cliente.Email.Equals(email, StringComparison.OrdinalIgnoreCase)){
@@ -155,6 +161,13 @@ public class ClienteRepository
             }
         }
         return false;
+    }
+
+    public bool ValidarEmail(string email){
+        return service.ValidarEmail(email);
+    }
+    public bool ValidarTelefone(string telefone){
+        return service.ValidarTelefone(telefone);
     }
     public static bool ExisteTelefone(string telefone)
     {
