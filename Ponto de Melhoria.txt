@@ -1,12 +1,12 @@
 Ponto de Melhoria:
 	Cliente:
-		Opção 1 - No adicionar cliente se eu colocar meu cpf, email, etc... e apertar no enter e depois eu ver que está errado, o sistema não me avisa/não deixa eu mudar na hora, ele me faz passar por todos os campos até falar que aquele lugar está errado(Tenho que recomeçar tudo do 0)
-		Opção 2 - Ao listar todos os clientes há repetição de textos ("Informações do Cliente"), Talvez colocar lá em cima, informações dos cliente(s) seria mais prático
-		Opção 6 - Mostrar o por que não foi possivel alterar o cliente( Se for o email mostra, se for o Id não =[ )
-		Opção 7 - Quando alterar o status para true ou false, se já estiver true ou false, avisar que o campo está igual("Este cliente já está ativo/inativo!")
+		RESOLVIDO: Opção 1 - No adicionar cliente se eu colocar meu cpf, email, etc... e apertar no enter e depois eu ver que está errado, o sistema não me avisa/não deixa eu mudar na hora, ele me faz passar por todos os campos até falar que aquele lugar está errado(Tenho que recomeçar tudo do 0)
+		RESOLVIDO: Opção 2 - Ao listar todos os clientes há repetição de textos ("Informações do Cliente"), Talvez colocar lá em cima, informações dos cliente(s) seria mais prático
+		RESOLVIDO: Opção 6 - Mostrar o por que não foi possivel alterar o cliente( Se for o email mostra, se for o Id não =[ )
+		RESOLVIDO: Opção 7 - Quando alterar o status para true ou false, se já estiver true ou false, avisar que o campo está igual("Este cliente já está ativo/inativo!")
 	
 	Produto:
-		Opção 6 - Quando alterar o status para true ou false, se já estiver true ou false, avisar que o campo está igual("Este cliente já está ativo/inativo!")
+		RESOLVIDO: Opção 6 - Quando alterar o status para true ou false, se já estiver true ou false, avisar que o campo está igual("Este cliente já está ativo/inativo!")
 
 	Venda:
 		Opção 1 - No adicionar venda se eu colocar algum campo e apertar no enter e depois eu ver que está errado, o sistema não me avisa/não deixa eu mudar na hora, ele me faz passar por todos os campos até falar que aquele lugar está errado(Tenho que recomeçar tudo do 0)
@@ -22,15 +22,15 @@ ERROR:
 		RESOLVIDO: Opção 1 - No adicionar cliente ao colocar o telefone, a validação não segue a mascara que deveria---------
 		RESOLVIDO: Opção 1 - Ao adicionar um cliente o nome não está em PascalCase
 		RESOLVIDO: Opção 3 - Ao buscar por id, se colocar um ID invalido o programa FECHA
-		Opção 5 - Ao buscar por cpf, se colocar um cpf invalido o programa FECHA
+		RESOLVIDO: Opção 5 - Ao buscar por cpf, se colocar um cpf invalido o programa FECHA
 
 	Produto:
-		Opção 1 - Ao adicionar um produto, quando colocado uma quantidade negativa no estoque, ele me manda uma mensagem de erro e FECHA O PROGRAMA
-		Opção 1 - Ao adicionar um produto, quando colocado um preço ZERO, ele me manda uma mensagem de erro e FECHA O PROGRAMA
-		Opção 1 - Ao adicionar um produto, ele me permite colocar um numero no nome do produto
-		Opção 1 - Adiciona um produto sem PascalCase/sneakCase, no caso NÃO TEM CASE
-		Opção 3 - Ao buscar por id, se colocar um ID invalido o programa FECHA
-		Opção 5 - Ao buscar por cpf, se colocar um cpf invalido o programa FECHA
+		RESOLVIDO: Opção 1 - Ao adicionar um produto, quando colocado uma quantidade negativa no estoque, ele me manda uma mensagem de erro e FECHA O PROGRAMA
+		RESOLVIDO: Opção 1 - Ao adicionar um produto, quando colocado um preço ZERO, ele me manda uma mensagem de erro e FECHA O PROGRAMA
+		RESOLVIDO: Opção 1 - Ao adicionar um produto, ele me permite colocar um numero no nome do produto
+		RESOLVIDO: Opção 1 - Adiciona um produto sem PascalCase/sneakCase, no caso NÃO TEM CASE
+		RESOLVIDO: Opção 3 - Ao buscar por id, se colocar um ID invalido o programa FECHA
+		NÃO FAZ SENTIDO: Opção 5 - Ao buscar por cpf, se colocar um cpf invalido o programa FECHA
 
 	Venda:
 		Opção 1 - Ao adicionar uma nova venda se colocar algum caracter no clienteId o programa FECHA

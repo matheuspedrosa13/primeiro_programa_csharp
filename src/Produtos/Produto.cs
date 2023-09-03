@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 
 public class Produto{
+    private Menu menu = new Menu();
     public int Id { get; set; }
     public bool Status {get; set;}
     public string? Nome { get; set; }
@@ -17,7 +18,8 @@ public class Produto{
                 preco = Math.Round(value, 2);
             }
             else{
-                throw new ArgumentException("O preço deve ser maior que zero.");
+                Console.WriteLine("O preço deve ser maior que 0!");
+                menu.ContinueProduto();
             }
         }
     }
@@ -29,7 +31,8 @@ public class Produto{
                 quantidadeEstoque = value;
             }
             else{
-                throw new ArgumentException("A quantidade em estoque não pode ser negativa.");
+                Console.WriteLine("Quantidade em estoque não pode ser negativa!");
+                menu.ContinueProduto();
             }
         }
     }

@@ -9,9 +9,9 @@ public class VendaService
     public bool RealizarNovaVenda(int clienteID, int produtoID, int quantidade, FormaPagamento formaPagamento)
     {
         Cliente cliente = ClienteService.MostrarCliente(clienteID);
-        Produto produto = ProdutoService.MostrarProduto(produtoID);
+        Produto produto = produtoService.MostrarProduto(produtoID);
         bool clienteExiste = ClienteService.ClienteExiste(clienteID);
-        bool produtoExiste = ProdutoService.ProdutoExiste(produtoID);
+        bool produtoExiste = produtoService.ProdutoExiste(produtoID);
 
         if (!clienteExiste)
         {

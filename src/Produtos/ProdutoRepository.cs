@@ -50,17 +50,6 @@ public class ProdutoRepository{
         return true;
     }
 
-    public bool IsTextOnly(string input)
-    {
-        foreach (char c in input)
-        {
-            if (!char.IsLetter(c) && !char.IsWhiteSpace(c))
-            {
-                return false;
-            }
-        }
-        return true;
-    }
 
 
     public bool CadastrarProduto(Produto produto){
@@ -89,17 +78,18 @@ public class ProdutoRepository{
         return database.Produto();
     }
 
-    public void BuscarPorId(int id)
+    public bool BuscarPorId(int id)
     {
         var produtoEncontrado = database.Produto().Find(produto => produto.Id == id);
-        if(produtoEncontrado!.Status == true){
-            Console.WriteLine("\nInformações do Produto:\n");
-            Console.WriteLine($"Id: {produtoEncontrado.Id}\nAtivo: Sim\nNome: {produtoEncontrado.Nome}\nPreço: {produtoEncontrado.Preco}\nEstoque: {produtoEncontrado.QuantidadeEstoque}\nFabricante: {produtoEncontrado.Fabricante}\nDescrição Técnica: {produtoEncontrado.DescricaoTecnica}");
+        if(produtoEncontrado == null){
+            return false;
         }else{
-                  Console.WriteLine("\nInformações do Produto:\n");
-            Console.WriteLine($"Id: {produtoEncontrado.Id}\nAtivo: Não\nNome: {produtoEncontrado.Nome}\nPreço: {produtoEncontrado.Preco}\nEstoque: {produtoEncontrado.QuantidadeEstoque}\nFabricante: {produtoEncontrado.Fabricante}\nDescrição Técnica: {produtoEncontrado.DescricaoTecnica}");
-        }   
+            return true;
+        }
+
     }
+
+    
 
     public bool AtualizarProduto(int id, string? coluna, object novoValor)
     {
@@ -144,7 +134,7 @@ public class ProdutoRepository{
         }
 
 
-    public static Produto ObterProdutoPorId(int id)
+    public Produto ObterProdutoPorId(int id)
     {
         foreach (Produto produto in database.Produto())
         {
@@ -155,4 +145,7 @@ public class ProdutoRepository{
         }
         return null!;
     }
+
+
+
 }
