@@ -796,6 +796,7 @@ public class Menu
 
         while (!sair)
         {
+            
             Console.WriteLine("\nSelecione uma opção da aba VENDAS:");
             Console.WriteLine("1. Realizar Nova Venda");
             Console.WriteLine("2. Mostrar Todas as Vendas");
@@ -849,7 +850,15 @@ public class Menu
                         Console.WriteLine("Digite a quantidade:");
                         if (int.TryParse(Console.ReadLine(), out quantidade) && quantidade > 0)
                         {
-                            break;
+                            int quantidadeEmEstoque = produtoRepo.ObterQuantidadeEstoque(produtoID);
+                            if (quantidadeEmEstoque >= quantidade)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Quantidade em estoque insuficiente. Tente novamente.");
+                            }
                         }
                         else
                         {
@@ -873,6 +882,7 @@ public class Menu
 
                     vendaRepository.AdicionarVenda(clienteID, produtoID, quantidade, formaPagamento);
                     break;
+
                     
                 case 2:
                     Console.WriteLine("Lista de todas as vendas:");
