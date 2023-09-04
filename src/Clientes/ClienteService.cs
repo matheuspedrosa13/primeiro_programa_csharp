@@ -105,7 +105,7 @@ public class ClienteService{
     }
     public static bool ClienteExiste(int clienteID)
     {
-        Cliente cliente = ClienteRepository.ObterClientePorId(clienteID);
+        Cliente cliente = clienteRepository.ObterClientePorId(clienteID);
         return cliente != null;
     }
 
@@ -121,9 +121,9 @@ public class ClienteService{
         return false;
     }
 
-    public static Cliente MostrarCliente(int id)
+    public Cliente MostrarCliente(int id)
     {
-        return ClienteRepository.ObterClientePorId(id);
+        return clienteRepository.ObterClientePorId(id);
     }
     
     public List<Cliente> BuscarPorCPF(string cpf)

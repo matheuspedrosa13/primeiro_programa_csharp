@@ -8,7 +8,6 @@ public class VendaService
 
     public bool RealizarNovaVenda(int clienteID, int produtoID, int quantidade, FormaPagamento formaPagamento)
     {
-        Cliente cliente = ClienteService.MostrarCliente(clienteID);
         Produto produto = produtoService.MostrarProduto(produtoID);
         bool clienteExiste = ClienteService.ClienteExiste(clienteID);
         bool produtoExiste = produtoService.ProdutoExiste(produtoID);
@@ -31,25 +30,12 @@ public class VendaService
             return false;
         }
 
-        if (quantidade > produto.QuantidadeEstoque)
-        {
-            Console.WriteLine("Quantidade indisponível em estoque.");
-            return false;
-        }
-
-        if (produto.QuantidadeEstoque == 0)
-        {
-            Console.WriteLine("Não tem estoque o suficiente");
-            return false;
-        }
-
         if (produto.Status == false)
         {
             Console.WriteLine("Produto indisponível!");
             return false;
         }
         
-        produtoService.DiminuirQuantidade(produtoID, quantidade);
         return true;
     }
 

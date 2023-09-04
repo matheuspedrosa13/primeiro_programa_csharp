@@ -10,7 +10,14 @@ public class ProdutoRepository{
         return produtoQuantidade!.QuantidadeEstoque;
     }   
 
-    // Função para verificar se a entrada contém apenas caracteres de texto
+    public bool DiminuirQuantidadeEstoque(int id, int quantidadeASubtrair)
+    {
+        Produto produtoParaAtualizar = database.Produto().FirstOrDefault(product => product.Id == id)!;
+        produtoParaAtualizar.QuantidadeEstoque -= quantidadeASubtrair;
+        return true;
+    }
+
+
 
     public bool AtualizarPorId(int id, string novoNome = null!, decimal? preco = null, string fabricante = null!, string descricao = null!){
         Produto produtoParaAtualizar = database.Produto().FirstOrDefault(product => product.Id == id)!;

@@ -97,7 +97,7 @@ public class ClienteRepository
         }
     }
 
-    public static Cliente ObterClientePorId(int id)
+    public Cliente ObterClientePorId(int id)
     {
         foreach (Cliente cliente in clientesDatabase.Clientes())
         {

@@ -9,7 +9,7 @@ Ponto de Melhoria:
 		RESOLVIDO: Opção 6 - Quando alterar o status para true ou false, se já estiver true ou false, avisar que o campo está igual("Este cliente já está ativo/inativo!")
 
 	Venda:
-		Opção 1 - No adicionar venda se eu colocar algum campo e apertar no enter e depois eu ver que está errado, o sistema não me avisa/não deixa eu mudar na hora, ele me faz passar por todos os campos até falar que aquele lugar está errado(Tenho que recomeçar tudo do 0)
+		RESOLVIDO: Opção 1 - No adicionar venda se eu colocar algum campo e apertar no enter e depois eu ver que está errado, o sistema não me avisa/não deixa eu mudar na hora, ele me faz passar por todos os campos até falar que aquele lugar está errado(Tenho que recomeçar tudo do 0)
 
 
 ERROR:
@@ -33,16 +33,16 @@ ERROR:
 		NÃO FAZ SENTIDO: Opção 5 - Ao buscar por cpf, se colocar um cpf invalido o programa FECHA
 
 	Venda:
-		Opção 1 - Ao adicionar uma nova venda se colocar algum caracter no clienteId o programa FECHA
-		Opção 1 - Ao adicionar uma nova venda se colocar algum caracter no produtoId o programa FECHA
-		Opção 1 - Ao adicionar uma nova venda se colocar algum caracter na quantidade o programa FECHA
-		Opção 1 - Ao adicionar uma nova venda se colocar algum caracter na forma de pagamento o programa FECHA
-		Opção 3 - Ao buscar por idCliente, caso seja um Id que não tenha, irá mostrar um array vazio, troque por "Cliente não encontrado"
-		Opção 3 - Ao buscar por idCliente, caso seja caracter o programa FECHA
-		Opção 4 - Ao buscar por idProduto, caso seja caracter o programa FECHA
-		Opção 4 - Ao buscar por idProduto, caso seja um Id que não tenha, irá mostrar um array vazio, troque por "Produto não encontrado"
-		Opção 5 - Ao buscar por idVenda, caso seja caracter o programa FECHA
-		Opção 5 - Ao buscar por idVenda, caso um Id que não tenha, irá mostrar um array vazio e uma mensagem dizendo que não tem venda com este id, APAGUE A MSS COM ARRAY VAZIO
+		RESOLVIDO: Opção 1 - Ao adicionar uma nova venda se colocar algum caracter no clienteId o programa FECHA
+		RESOLVIDO: Opção 1 - Ao adicionar uma nova venda se colocar algum caracter no produtoId o programa FECHA
+		RESOLVIDO: Opção 1 - Ao adicionar uma nova venda se colocar algum caracter na quantidade o programa FECHA
+		RESOLVIDO: Opção 1 - Ao adicionar uma nova venda se colocar algum caracter na forma de pagamento o programa FECHA
+		RESOLVIDO: Opção 3 - Ao buscar por idCliente, caso seja um Id que não tenha, irá mostrar um array vazio, troque por "Cliente não encontrado"
+		RESOLVIDO; Opção 3 - Ao buscar por idCliente, caso seja caracter o programa FECHA
+		RESOLVIDO: Opção 4 - Ao buscar por idProduto, caso seja caracter o programa FECHA
+		RESOLVIDO: Opção 4 - Ao buscar por idProduto, caso seja um Id que não tenha, irá mostrar um array vazio, troque por "Produto não encontrado"
+		RESOLVIDO: Opção 5 - Ao buscar por idVenda, caso seja caracter o programa FECHA
+		RESOLVIVO: Opção 5 - Ao buscar por idVenda, caso um Id que não tenha, irá mostrar um array vazio e uma mensagem dizendo que não tem venda com este id, APAGUE A MSS COM ARRAY VAZIO
 
 6 - Pontos de Melhoria
 22 - ERROS

@@ -488,9 +488,6 @@ public class Menu
                     ContinueProduto();
                     break;
 
-
-
-
                 case 7:
                     sair = true;
                     ExibirMenu();
@@ -824,7 +821,15 @@ public class Menu
                         Console.WriteLine("Digite o ID do cliente:");
                         if (int.TryParse(Console.ReadLine(), out clienteID))
                         {
-                            break;
+                            Cliente clienteExistente = clienteRepo.ObterClientePorId(clienteID);
+                            if (clienteExistente != null)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Cliente não encontrado. Tente novamente.");
+                            }
                         }
                         else
                         {
@@ -837,7 +842,15 @@ public class Menu
                         Console.WriteLine("Digite o ID do produto:");
                         if (int.TryParse(Console.ReadLine(), out produtoID))
                         {
-                            break;
+                            Produto produtoExistente = produtoRepo.ObterProdutoPorId(produtoID);
+                            if (produtoExistente != null)
+                            {
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine("Produto não encontrado. Tente novamente.");
+                            }
                         }
                         else
                         {
@@ -848,16 +861,23 @@ public class Menu
                     while (true)
                     {
                         Console.WriteLine("Digite a quantidade:");
+                        
                         if (int.TryParse(Console.ReadLine(), out quantidade) && quantidade > 0)
                         {
                             int quantidadeEmEstoque = produtoRepo.ObterQuantidadeEstoque(produtoID);
-                            if (quantidadeEmEstoque >= quantidade)
+                            if(quantidadeEmEstoque == 0){
+                                Console.WriteLine("O produto não tem estoque");
+                                ContinueVendas();
+                                break;
+                            }
+                            else if (quantidadeEmEstoque >= quantidade)
                             {
+                                produtoRepo.DiminuirQuantidadeEstoque(produtoID, quantidade);
                                 break;
                             }
                             else
                             {
-                                Console.WriteLine("Quantidade em estoque insuficiente. Tente novamente.");
+                                Console.WriteLine($"Quantidade em estoque insuficiente, o produto tem {quantidadeEmEstoque} produtos em estoque. Tente novamente.");
                             }
                         }
                         else
@@ -898,7 +918,15 @@ public class Menu
                         Console.WriteLine("Digite o ID do cliente:");
                         if (int.TryParse(Console.ReadLine(), out clienteIDFiltro))
                         {
-                            break;
+                            // Verifique se o cliente com o ID fornecido existe
+                            if (clienteRepo.ObterClientePorId(clienteIDFiltro) != null)
+                            {
+                                break; // Sai do loop se o ID for válido e o cliente existir
+                            }
+                            else
+                            {
+                                Console.WriteLine("Cliente não encontrado. Tente novamente.");
+                            }
                         }
                         else
                         {
@@ -909,7 +937,9 @@ public class Menu
                     List<Venda> vendasCliente = vendaRepository.BuscarPorCliente(clienteIDFiltro);
                     if (vendasCliente.Count == 0)
                     {
-                        Console.WriteLine("Cliente não encontrado.");
+    
+                        Console.WriteLine("Cliente não possui venda.");
+                        ContinueVendas();
                     }
                     else
                     {
@@ -918,6 +948,7 @@ public class Menu
                     }
                     ContinueVendas();
                     break;
+
 
                 case 4:
                     int produtoIDFiltro;
