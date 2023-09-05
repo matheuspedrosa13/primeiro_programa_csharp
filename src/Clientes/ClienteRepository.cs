@@ -27,7 +27,7 @@ public class ClienteRepository
 
         if (!string.IsNullOrEmpty(novoNome))
         {
-            if (!service.TemSobrenome(novoNome) || !ClienteService.NaoContemNumeros(novoNome))
+            if (!service.TemSobrenome(novoNome) || !service.NaoContemNumeros(novoNome))
             {
                 Console.WriteLine("O nome deve ter pelo menos duas palavras, sem números!");
                 return false;
@@ -91,8 +91,9 @@ public class ClienteRepository
             string telefoneFormatado = FormatarTelefone(cliente.Telefone);
         
             string status = cliente.Status ? "Sim" : "Não";
+            Console.WriteLine($"Cliente {cliente.Id}:\n");
             
-            Console.WriteLine($"Id: {cliente.Id}\nAtivo: {status}\nNome: {cliente.Nome}\nCPF: {cliente.CPF}\nSexo: {cliente.Sexo}\nTelefone: {telefoneFormatado}\nEmail: {cliente.Email}");
+            Console.WriteLine($"Id: {cliente.Id}\nAtivo: {status}\nNome: {cliente.Nome}\nCPF: {cliente.CPF}\nSexo: {cliente.Sexo}\nTelefone: {telefoneFormatado}\nEmail: {cliente.Email}\n\n");
     
         }
     }

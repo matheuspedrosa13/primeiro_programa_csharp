@@ -62,6 +62,10 @@ public class Menu
             Console.WriteLine("Nome inválido, o nome deve ter sobrenome. Digite-o novamente:");
             opcao = Console.ReadLine()!;
         }
+        while(!clienteService.NaoContemNumeros(opcao!)){
+            Console.WriteLine("Nome inválido, o nome não deve ter número. Digite-o novamente:");
+            opcao = Console.ReadLine()!;
+        }
         return opcao;
     }
 
@@ -170,7 +174,7 @@ public class Menu
             Console.WriteLine("3. Buscar Produto por ID");
             Console.WriteLine("4. Buscar Produto por Nome");
             Console.WriteLine("5. Atualizar Produto por ID");
-            Console.WriteLine("6. Excluir Produto por ID");
+            Console.WriteLine("6. Alterar status do Produto por ID");
             Console.WriteLine("7. Voltar ao menu principal");
 
             var escolhaStr = Console.ReadLine();
@@ -329,6 +333,7 @@ public class Menu
                         Console.WriteLine("2. Preço");
                         Console.WriteLine("3. Fabricante");
                         Console.WriteLine("4. Descrição");
+                        Console.WriteLine("5. Adicionar quantidade");
                         var escolha1 = Console.ReadLine();
 
                         switch (escolha1)
@@ -351,7 +356,10 @@ public class Menu
                             case "2":
                                 Console.WriteLine("Digite o novo preço do produto:");
                                 var novoPrecoStr = Console.ReadLine();
-                                if (decimal.TryParse(novoPrecoStr, out decimal novoPreco))
+
+                                novoPrecoStr = novoPrecoStr!.Replace(",", ".");
+
+                                if (decimal.TryParse(novoPrecoStr, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.CultureInfo.InvariantCulture, out decimal novoPreco))
                                 {
                                     bool produtoAtualizadoPreco = produtoRepo.AtualizarPorId(idAtualizarProduto, preco: novoPreco);
                                     if (produtoAtualizadoPreco)
@@ -368,6 +376,9 @@ public class Menu
                                     Console.WriteLine("Preço inválido! Digite um número decimal válido.");
                                 }
                                 break;
+
+
+
 
                             case "3":
                                 Console.WriteLine("Digite o novo fabricante do produto:");
@@ -394,6 +405,28 @@ public class Menu
                                 else
                                 {
                                     Console.WriteLine("Não foi possível atualizar a descrição do produto.");
+                                }
+                                break;
+                            case "5":
+                                Console.WriteLine("Digite o quanto você quer adicionar ao estoque do produto:");
+                                string adicionarQaunt = Console.ReadLine()!;
+                                
+                                if (int.TryParse(adicionarQaunt, System.Globalization.NumberStyles.Integer, System.Globalization.CultureInfo.InvariantCulture, out int novaQuantidade))
+                                {
+                                    bool quantidadeAtualizada = produtoRepo.AumentarQuantidadePorId(idAtualizarProduto, novaQuantidade);
+
+                                    if (quantidadeAtualizada)
+                                    {
+                                        Console.WriteLine($"{novaQuantidade} produtos adicionados no estoque no produto com o id {idAtualizarProduto}");
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Não foi possível adicionar quantidade ao estoque do produto.");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Quantidade inválida! Digite um número inteiro válido.");
                                 }
                                 break;
 
@@ -724,13 +757,17 @@ public class Menu
                         Console.WriteLine("Digite o novo status (1 para Ativo ou 2 para Inativo):");
                         var novoStatusStr = Console.ReadLine();
                         Cliente clienteAchado = clienteRepo.BuscarPorId(idStatus);
+                        if(clienteAchado == null){
+                            Console.WriteLine("Cliente não encontrado");
+                            ContinueCliente();
+                        }
                         if (int.TryParse(novoStatusStr, out int novoStatusOpcao))
                         {
                             bool novoStatus;
                             
                             if (novoStatusOpcao == 1)
                             {
-                                if(clienteAchado.Status == true){
+                                if(clienteAchado!.Status == true){
                                     Console.WriteLine("Cliente já está ativo");
                                     ContinueCliente();
                                 }
@@ -739,7 +776,7 @@ public class Menu
                             }
                             else if (novoStatusOpcao == 2)
                             {
-                                if(clienteAchado.Status == false){
+                                if(clienteAchado!.Status == false){
                                     Console.WriteLine("Cliente já está desativado");
                                     ContinueCliente();
                                 }
@@ -822,13 +859,17 @@ public class Menu
                         if (int.TryParse(Console.ReadLine(), out clienteID))
                         {
                             Cliente clienteExistente = clienteRepo.ObterClientePorId(clienteID);
-                            if (clienteExistente != null)
+                            if (clienteExistente != null && clienteExistente.Status)
                             {
                                 break;
                             }
-                            else
+                            else if (clienteExistente == null)
                             {
                                 Console.WriteLine("Cliente não encontrado. Tente novamente.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Cliente inativo. Tente novamente.");
                             }
                         }
                         else
@@ -843,13 +884,17 @@ public class Menu
                         if (int.TryParse(Console.ReadLine(), out produtoID))
                         {
                             Produto produtoExistente = produtoRepo.ObterProdutoPorId(produtoID);
-                            if (produtoExistente != null)
+                            if (produtoExistente != null && produtoExistente.Status)
                             {
                                 break;
                             }
-                            else
+                            else if (produtoExistente == null)
                             {
                                 Console.WriteLine("Produto não encontrado. Tente novamente.");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Produto inativo. Tente novamente.");
                             }
                         }
                         else
@@ -861,11 +906,12 @@ public class Menu
                     while (true)
                     {
                         Console.WriteLine("Digite a quantidade:");
-                        
+
                         if (int.TryParse(Console.ReadLine(), out quantidade) && quantidade > 0)
                         {
                             int quantidadeEmEstoque = produtoRepo.ObterQuantidadeEstoque(produtoID);
-                            if(quantidadeEmEstoque == 0){
+                            if (quantidadeEmEstoque == 0)
+                            {
                                 Console.WriteLine("O produto não tem estoque");
                                 ContinueVendas();
                                 break;
@@ -899,9 +945,13 @@ public class Menu
                             Console.WriteLine("Forma de pagamento inválida. Tente novamente.");
                         }
                     }
-
                     vendaRepository.AdicionarVenda(clienteID, produtoID, quantidade, formaPagamento);
+
+                    if(produtoRepo.ObterQuantidadeEstoque(produtoID) == 0){
+                        produtoRepo.AlterarStatusPorId(produtoID, false);
+                    }
                     break;
+
 
                     
                 case 2:

@@ -187,7 +187,7 @@ public class ClienteService{
         return partesNome.Length >= 2;
     }
 
-    public static bool NaoContemNumeros(string texto){
+    public bool NaoContemNumeros(string texto){
         foreach (char c in texto){
             if (char.IsDigit(c)){
                 return false;

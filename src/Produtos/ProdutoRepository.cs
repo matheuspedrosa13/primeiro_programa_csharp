@@ -17,7 +17,29 @@ public class ProdutoRepository{
         return true;
     }
 
+    public bool AumentarQuantidadePorId(int id, int quantidade)
+    {
+        Produto produtoParaAtualizar = database.Produto().FirstOrDefault(product => product.Id == id)!;
 
+        if (produtoParaAtualizar == null)
+        {
+            Console.WriteLine("Produto não encontrado.");
+            return false;
+        }
+
+        if (quantidade < 0)
+        {
+            Console.WriteLine("A quantidade não pode ser negativa.");
+            return false;
+        }
+
+        if(produtoParaAtualizar.QuantidadeEstoque == 0){
+            AlterarStatusPorId(id, true);
+        }
+
+        produtoParaAtualizar.QuantidadeEstoque += quantidade;
+        return true;
+    }
 
     public bool AtualizarPorId(int id, string novoNome = null!, decimal? preco = null, string fabricante = null!, string descricao = null!){
         Produto produtoParaAtualizar = database.Produto().FirstOrDefault(product => product.Id == id)!;
