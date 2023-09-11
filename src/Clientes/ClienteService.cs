@@ -183,6 +183,7 @@ public class ClienteService{
 
 
     public bool TemSobrenome(string nome){
+        nome = nome.TrimEnd();
         string[] partesNome = nome.Split(' ');
         return partesNome.Length >= 2;
     }

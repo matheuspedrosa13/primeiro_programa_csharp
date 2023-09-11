@@ -33,7 +33,22 @@ public class Menu
         while (!clienteService.ValidarCPF(opcao!))
         {
             Console.WriteLine("CPF inválido, o CPF não pode ter traços ou pontos. Digite-o novamente:");
+            
             opcao = Console.ReadLine()!;
+
+            while(ClienteRepository.ExisteCPF(opcao)){
+                Console.WriteLine("Esse CPF já foi utilizado. Digite outro para continuar:");
+                opcao = Console.ReadLine()!;
+            }
+        }
+        
+        while(ClienteRepository.ExisteCPF(opcao)){
+            Console.WriteLine("Esse CPF já foi utilizado. Digite outro para continuar:");
+            opcao = Console.ReadLine()!;
+            while(!clienteService.ValidarCPF(opcao)){
+                Console.WriteLine("CPF inválido, o CPF não pode ter traços ou pontos. Digite-o novamente:");
+                opcao = Console.ReadLine()!;
+            }
         }
         return opcao;
     }
@@ -61,10 +76,18 @@ public class Menu
         {
             Console.WriteLine("Nome inválido, o nome deve ter sobrenome. Digite-o novamente:");
             opcao = Console.ReadLine()!;
+            while(!clienteService.NaoContemNumeros(opcao!)){
+                Console.WriteLine("Nome inválido, o nome não deve ter número. Digite-o novamente:");
+                opcao = Console.ReadLine()!;
+            }
         }
         while(!clienteService.NaoContemNumeros(opcao!)){
             Console.WriteLine("Nome inválido, o nome não deve ter número. Digite-o novamente:");
             opcao = Console.ReadLine()!;
+            while (!clienteService.TemSobrenome(opcao!)){
+                Console.WriteLine("Nome inválido, o nome deve ter sobrenome. Digite-o novamente:");
+                opcao = Console.ReadLine()!;
+            }
         }
         return opcao;
     }

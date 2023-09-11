@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\t60811\\Desktop\\CSHARP\\teste2\\primeiro_programa_csharp\\projeto_produto.csproj": {}
+    "C:\\Users\\t60811\\Desktop\\CSHARP\\REALORIGINAL\\primeiro_programa_csharp\\projeto_produto.csproj": {}
   },
   "projects": {
-    "C:\\Users\\t60811\\Desktop\\CSHARP\\teste2\\primeiro_programa_csharp\\projeto_produto.csproj": {
+    "C:\\Users\\t60811\\Desktop\\CSHARP\\REALORIGINAL\\primeiro_programa_csharp\\projeto_produto.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\t60811\\Desktop\\CSHARP\\teste2\\primeiro_programa_csharp\\projeto_produto.csproj",
+        "projectUniqueName": "C:\\Users\\t60811\\Desktop\\CSHARP\\REALORIGINAL\\primeiro_programa_csharp\\projeto_produto.csproj",
         "projectName": "projeto_produto",
-        "projectPath": "C:\\Users\\t60811\\Desktop\\CSHARP\\teste2\\primeiro_programa_csharp\\projeto_produto.csproj",
+        "projectPath": "C:\\Users\\t60811\\Desktop\\CSHARP\\REALORIGINAL\\primeiro_programa_csharp\\projeto_produto.csproj",
         "packagesPath": "C:\\Users\\t60811\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\t60811\\Desktop\\CSHARP\\teste2\\primeiro_programa_csharp\\obj\\",
+        "outputPath": "C:\\Users\\t60811\\Desktop\\CSHARP\\REALORIGINAL\\primeiro_programa_csharp\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\t60811\\AppData\\Roaming\\NuGet\\NuGet.Config"
