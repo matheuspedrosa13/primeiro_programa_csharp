@@ -183,7 +183,9 @@ public class ClienteService{
 
 
     public bool TemSobrenome(string nome){
-        nome = nome.TrimEnd();
+        nome = nome.TrimEnd().TrimStart();
+        List<string> listaNome = new(nome.Split(' ', StringSplitOptions.RemoveEmptyEntries));
+        nome = string.Join(" ", listaNome);
         string[] partesNome = nome.Split(' ');
         return partesNome.Length >= 2;
     }
