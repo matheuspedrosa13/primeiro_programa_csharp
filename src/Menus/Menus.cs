@@ -2,6 +2,7 @@ using System.Globalization;
 public class Menu
 {
     private ClienteService clienteService = new ClienteService();
+    private ClientesDatabase clienteDatabase = new ClientesDatabase();
     private ProdutoService produtoService = new ProdutoService();
     private ClienteRepository clienteRepo = new ClienteRepository();
     private ProdutoRepository produtoRepo = new ProdutoRepository();
@@ -692,90 +693,100 @@ public class Menu
                     Console.WriteLine("Digite o id do cliente para atualizar as informações:");
                     var idAtualizarStr = Console.ReadLine();
 
-                    if (int.TryParse(idAtualizarStr, out int idAtualizar))
+                    int idAtualizar;
+
+                    while (!int.TryParse(idAtualizarStr, out idAtualizar))
                     {
-                        Console.WriteLine("Escolha o que deseja atualizar:");
-                        Console.WriteLine("1. Nome");
-                        Console.WriteLine("2. Email");
-                        Console.WriteLine("3. Telefone");
-                        var escolha1 = Console.ReadLine();
+                        Console.WriteLine("Por favor, insira um número inteiro para o ID do cliente:");
+                        idAtualizarStr = Console.ReadLine(); 
+                    }
+   
+                    Cliente clienteParaAtualizar = clienteDatabase.Clientes().FirstOrDefault(client => client.Id == idAtualizar)!;
+                    
+                    if (clienteParaAtualizar == null)
+                    {
+                        Console.WriteLine("Cliente não encontrado.");
+                        ContinueCliente();
+                    }
 
-                        switch (escolha1)
-                        {
-                            case "1":
-                                Console.WriteLine("Digite o novo nome do cliente (com sobrenome):");
-                                var novoNome = Console.ReadLine();
+                    Console.WriteLine("Escolha o que deseja atualizar:");
+                    Console.WriteLine("1. Nome");
+                    Console.WriteLine("2. Email");
+                    Console.WriteLine("3. Telefone");
+                    var escolha1 = Console.ReadLine();
 
-                                if (!clienteService.TemSobrenome(novoNome!))
+                    switch (escolha1)
+                    {
+                        case "1":
+                            Console.WriteLine("Digite o novo nome do cliente (com sobrenome):");
+                            var novoNome = Console.ReadLine();
+
+                            if (!clienteService.TemSobrenome(novoNome!))
+                            {
+                                Console.WriteLine("O nome deve ter pelo menos duas palavras!");
+                                break;
+                            }
+
+                            bool clienteAtualizadoNome = ClienteRepository.AtualizarPorId(idAtualizar, novoNome!);
+                            if (clienteAtualizadoNome)
+                            {
+                                Console.WriteLine("Nome do cliente atualizado com sucesso!");
+                            }
+                            else
+                            {
+                                Console.WriteLine("Não foi possível atualizar o nome do cliente.");
+                            }
+                            break;
+
+                        case "2":
+                            Console.WriteLine("Digite o novo email do cliente:");
+                            var novoEmail = Console.ReadLine();
+                            if(clienteRepo.ExisteEmail(novoEmail!) == true){
+                                Console.WriteLine("Email já cadastrado no banco de dados");
+                                break;
+                            }else if(clienteRepo.ValidarEmail(novoEmail!) == false){
+                                Console.WriteLine("Email deve estar no padrão. Ex: xxxxx@xxxx.xxx");
+                                break;
+                            }else{
+                                bool clienteAtualizadoEmail = ClienteRepository.AtualizarPorId(idAtualizar, null!, novoEmail!);
+                                if (clienteAtualizadoEmail)
                                 {
-                                    Console.WriteLine("O nome deve ter pelo menos duas palavras!");
-                                    break;
-                                }
-
-                                bool clienteAtualizadoNome = ClienteRepository.AtualizarPorId(idAtualizar, novoNome!);
-                                if (clienteAtualizadoNome)
-                                {
-                                    Console.WriteLine("Nome do cliente atualizado com sucesso!");
+                                    Console.WriteLine("Email do cliente atualizado com sucesso!");
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Não foi possível atualizar o nome do cliente.");
+                                    Console.WriteLine("Não foi possível atualizar o email do cliente.");
                                 }
                                 break;
+                            }
 
-                            case "2":
-                                Console.WriteLine("Digite o novo email do cliente:");
-                                var novoEmail = Console.ReadLine();
-                                if(clienteRepo.ExisteEmail(novoEmail!) == true){
-                                    Console.WriteLine("Email já cadastrado no banco de dados");
-                                    break;
-                                }else if(clienteRepo.ValidarEmail(novoEmail!) == false){
-                                    Console.WriteLine("Email deve estar no padrão. Ex: xxxxx@xxxx.xxx");
-                                    break;
-                                }else{
-                                    bool clienteAtualizadoEmail = ClienteRepository.AtualizarPorId(idAtualizar, null!, novoEmail!);
-                                    if (clienteAtualizadoEmail)
-                                    {
-                                        Console.WriteLine("Email do cliente atualizado com sucesso!");
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Não foi possível atualizar o email do cliente.");
-                                    }
-                                    break;
+                        case "3":
+                            Console.WriteLine("Digite o novo telefone do cliente, deve seguir o padrão, 11 dígitos (se for número pessoal) ou 10 dígitos (se for número fixo) e ser um número");
+                            var novoTelefone = Console.ReadLine();
+                            
+                            bool clienteAtualizadoTelefone = ClienteRepository.AtualizarPorId(idAtualizar, null!, null!, novoTelefone!);
+                            if(clienteRepo.ValidarTelefone(novoTelefone!) == true){
+                                if (clienteAtualizadoTelefone)
+                                {
+                                    Console.WriteLine("Telefone do cliente atualizado com sucesso!");
                                 }
-
-                            case "3":
-                                Console.WriteLine("Digite o novo telefone do cliente, deve seguir o padrão, 11 dígitos (se for número pessoal) ou 10 dígitos (se for número fixo) e ser um número");
-                                var novoTelefone = Console.ReadLine();
-                                
-                                bool clienteAtualizadoTelefone = ClienteRepository.AtualizarPorId(idAtualizar, null!, null!, novoTelefone!);
-                                if(clienteRepo.ValidarTelefone(novoTelefone!) == true){
-                                    if (clienteAtualizadoTelefone)
-                                    {
-                                        Console.WriteLine("Telefone do cliente atualizado com sucesso!");
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Não foi possível atualizar o telefone do cliente.");
-                                    }
-                                    break;
-                                }else{
-                                        Console.Write("Telefone deve seguir o padrão, 11 dígitos (se for número pessoal) ou 10 dígitos (se for número fixo)\n");
-                                    break;
+                                else
+                                {
+                                    Console.WriteLine("Não foi possível atualizar o telefone do cliente.");
                                 }
-
-                            default:
-                                Console.WriteLine("Escolha inválida.");
                                 break;
-                        }
+                            }else{
+                                    Console.Write("Telefone deve seguir o padrão, 11 dígitos (se for número pessoal) ou 10 dígitos (se for número fixo)\n");
+                                break;
+                            }
+
+                        default:
+                            Console.WriteLine("Escolha inválida.");
+                            break;
                     }
-                    else
-                    {
-                        Console.WriteLine("ID inválido! Certifique-se de digitar um número inteiro.");
-                    }
-                    ContinueCliente();
-                    break;
+
+                ContinueCliente();
+                break;
 
 
                 case 7:

@@ -19,11 +19,6 @@ public class ClienteRepository
     {
         Cliente clienteParaAtualizar = clientesDatabase.Clientes().FirstOrDefault(client => client.Id == id)!;
 
-        if (clienteParaAtualizar == null)
-        {
-            Console.WriteLine("Cliente não encontrado.");
-            return false;
-        }
 
         if (!string.IsNullOrEmpty(novoNome))
         {
