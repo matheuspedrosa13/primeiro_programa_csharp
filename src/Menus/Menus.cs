@@ -100,6 +100,8 @@ public class Menu
                 Console.WriteLine("O nome do produto não pode conter números. Tente novamente.");
                 Console.Write("Digite o nome do produto: ");
                 nomeProduto = Console.ReadLine()!;
+                nomeProduto.TrimEnd();
+                nomeProduto.TrimStart();
             }
         }else{
             while (produtoService.ContemNumeros(nomeProduto))
@@ -107,9 +109,14 @@ public class Menu
                 Console.WriteLine("O nome do fabricante não pode conter números. Tente novamente.");
                 Console.Write("Digite o nome do fabricante: ");
                 nomeProduto = Console.ReadLine()!;
+                nomeProduto.TrimEnd();
+                nomeProduto.TrimStart();
             }
         }
+        nomeProduto.TrimEnd();
+        nomeProduto.TrimStart();
         return nomeProduto;
+
     }
 
     public decimal ObterPrecoProduto(string precoInput)
