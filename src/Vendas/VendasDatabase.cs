@@ -5,10 +5,10 @@ public class VendasDatabase
 {
     public List<Venda> vendas = new()
     {
-        new Venda(1, 101, 201, 3, FormaPagamento.CartaoDeCredito){
+        new Venda(1, 101, 201, 3, 100, FormaPagamento.CartaoDeCredito){
             Data = DateTime.Now.AddDays(-10)
         },
-        new Venda(2, 231, 322, 100, FormaPagamento.Dinheiro){
+        new Venda(2, 231, 322, 100, 200, FormaPagamento.Dinheiro){
             Data = DateTime.Now.AddDays(-10)
         }
     };

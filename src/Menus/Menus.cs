@@ -123,12 +123,16 @@ public class Menu
     public decimal ObterPrecoProduto(string precoInput)
     {
         decimal precoDecimal;
-        while (!decimal.TryParse(precoInput, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.CultureInfo.InvariantCulture, out precoDecimal))
+        while (!decimal.TryParse(precoInput, System.Globalization.NumberStyles.AllowDecimalPoint | System.Globalization.NumberStyles.AllowLeadingSign, CultureInfo.GetCultureInfo("en-US"), out precoDecimal))
         {
             Console.WriteLine("Escolha inválida! O preço deve ser inteiro ou decimal!");
             Console.Write("Digite o preço: ");
             precoInput = Console.ReadLine()!;
         }
+        
+        // Truncar o número para dois dígitos após o ponto decimal
+        precoDecimal = Math.Truncate(precoDecimal * 100) / 100;
+        
         return precoDecimal;
     }
 
@@ -224,7 +228,7 @@ public class Menu
                     string nomeVerificado = ObterNomesProduto(true, nome);
                     string nomeFormatado = produtoService.PascalCase(nomeVerificado);
 
-                    Console.WriteLine("Digite o preço do produto: (0.00)");
+                    Console.WriteLine("Digite o preço do produto: (número decimal com virgula ou com ponto)");
                     string precoInput = Console.ReadLine()!;
                     precoInput = precoInput.Replace(",", ".");
                     decimal precoVerificado = ObterPrecoProduto(precoInput);
@@ -295,7 +299,7 @@ public class Menu
                             idEncontrado = produtoRepo.BuscarPorId(idReal);
                             if (!idEncontrado)
                             {
-                                Console.WriteLine("O id não encontrado!");
+                                Console.WriteLine("Produto não encontrado!");
                                 Console.WriteLine("Digite o ID novamente:");
                                 idProd = Console.ReadLine();
                             }
@@ -350,7 +354,7 @@ public class Menu
                             idEncontrado2 = produtoRepo.BuscarPorId(idReal2);
                             if (!idEncontrado2)
                             {
-                                Console.WriteLine("O id não encontrado!");
+                                Console.WriteLine("Produto não encontrado!");
                                 Console.WriteLine("Digite o ID novamente:");
                                 idAtualizarStr = Console.ReadLine();
                             }
@@ -385,7 +389,7 @@ public class Menu
                                 break;
 
                             case "2":
-                                Console.WriteLine("Digite o novo preço do produto:");
+                                Console.WriteLine("Digite o preço do produto: (número decimal com virgula ou com ponto)");
                                 var novoPrecoStr = Console.ReadLine();
 
                                 novoPrecoStr = novoPrecoStr!.Replace(",", ".");
@@ -624,7 +628,10 @@ public class Menu
 
                 case 2:
                     Console.WriteLine("Lista de todos os clientes:\n");
+                    Console.WriteLine($"Clientes:");
                     clienteRepo.MostrarTodosClientes();
+                    Console.WriteLine("");
+
                     ContinueCliente();
                     break;
 
@@ -790,68 +797,92 @@ public class Menu
 
 
                 case 7:
-                    Console.WriteLine("Digite o id do cliente para alterar o status:");
-                    var idStatusStr = Console.ReadLine();
-
-                    if (int.TryParse(idStatusStr, out int idStatus))
+                    while (true)
                     {
-                        Console.WriteLine("Digite o novo status (1 para Ativo ou 2 para Inativo):");
-                        var novoStatusStr = Console.ReadLine();
-                        Cliente clienteAchado = clienteRepo.BuscarPorId(idStatus);
-                        if(clienteAchado == null){
-                            Console.WriteLine("Cliente não encontrado");
-                            ContinueCliente();
-                        }
-                        if (int.TryParse(novoStatusStr, out int novoStatusOpcao))
+                        Console.WriteLine("Digite o id do cliente para alterar o status:");
+                        var idStatusStr = Console.ReadLine();
+
+                        if (int.TryParse(idStatusStr, out int idStatus))
                         {
-                            bool novoStatus;
-                            
-                            if (novoStatusOpcao == 1)
-                            {
-                                if(clienteAchado!.Status == true){
-                                    Console.WriteLine("Cliente já está ativo");
-                                    ContinueCliente();
-                                }
-                                novoStatus = true;
+                            Cliente clienteAchado = clienteRepo.BuscarPorId(idStatus);
 
-                            }
-                            else if (novoStatusOpcao == 2)
+                            if (clienteAchado == null)
                             {
-                                if(clienteAchado!.Status == false){
-                                    Console.WriteLine("Cliente já está desativado");
-                                    ContinueCliente();
-                                }
-                                novoStatus = false;
+                                Console.WriteLine("Cliente não encontrado");
                             }
                             else
                             {
-                                Console.WriteLine("Opção de status inválida. Use 1 para Ativo ou 2 para Inativo.");
-                                ContinueCliente();
-                                break;
-                            }
+                                Console.WriteLine("Digite o novo status (1 para Ativo ou 2 para Inativo):");
+                                var novoStatusStr = Console.ReadLine();
 
-                            bool statusAlterado = ClienteRepository.AlterarStatusPorId(idStatus, novoStatus);
+                                if (int.TryParse(novoStatusStr, out int novoStatusOpcao))
+                                {
+                                    bool novoStatus;
 
-                            if (statusAlterado)
-                            {
-                                Console.WriteLine("Status do cliente alterado com sucesso!");
-                            }
-                            else
-                            {
-                                Console.WriteLine("Não foi possível alterar o status do cliente.");
+                                    if (novoStatusOpcao == 1)
+                                    {
+                                        if (clienteAchado.Status == true)
+                                        {
+                                            Console.WriteLine("Cliente já está ativo");
+                                        }
+                                        else
+                                        {
+                                            novoStatus = true;
+                                            bool statusAlterado = ClienteRepository.AlterarStatusPorId(idStatus, novoStatus);
+
+                                            if (statusAlterado)
+                                            {
+                                                Console.WriteLine("Status do cliente alterado com sucesso!");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("Não foi possível alterar o status do cliente.");
+                                            }
+                                        }
+                                    }
+                                    else if (novoStatusOpcao == 2)
+                                    {
+                                        if (clienteAchado.Status == false)
+                                        {
+                                            Console.WriteLine("Cliente já está desativado");
+                                        }
+                                        else
+                                        {
+                                            novoStatus = false;
+                                            bool statusAlterado = ClienteRepository.AlterarStatusPorId(idStatus, novoStatus);
+
+                                            if (statusAlterado)
+                                            {
+                                                Console.WriteLine("Status do cliente alterado com sucesso!");
+                                            }
+                                            else
+                                            {
+                                                Console.WriteLine("Não foi possível alterar o status do cliente.");
+                                            }
+                                        }
+                                    }
+                                    else
+                                    {
+                                        Console.WriteLine("Opção de status inválida. Use 1 para Ativo ou 2 para Inativo.");
+                                    }
+                                }
+                                else
+                                {
+                                    Console.WriteLine("Opção inválida! Digite 1 para Ativo ou 2 para Inativo.");
+                                }
+
+                                break; // Sai do loop se o cliente for encontrado e o status for alterado ou inválido
                             }
                         }
                         else
                         {
-                            Console.WriteLine("Opção inválida! Digite 1 para Ativo ou 2 para Inativo.");
+                            Console.WriteLine("ID inválido! Certifique-se de digitar um número inteiro.");
                         }
                     }
-                    else
-                    {
-                        Console.WriteLine("ID inválido! Certifique-se de digitar um número inteiro.");
-                    }
+
                     ContinueCliente();
                     break;
+
 
 
                     case 8:
@@ -969,7 +1000,7 @@ public class Menu
                         }
                         else
                         {
-                            Console.WriteLine("Quantidade inválida. Deve ser um número positivo. Tente novamente.");
+                            Console.WriteLine("Quantidade inválida. Deve ser um número positivo e inteiro. Tente novamente.");
                         }
                     }
 
@@ -986,14 +1017,20 @@ public class Menu
                             Console.WriteLine("Forma de pagamento inválida. Tente novamente.");
                         }
                     }
-                    vendaRepository.AdicionarVenda(clienteID, produtoID, quantidade, formaPagamento);
+
+                    decimal preco2 = produtoRepo.ObterProdutoPorId(produtoID).Preco;
+                    decimal valor = preco2 * quantidade;
+
+                    string valorFormatado = valor.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
+
+                    valorFormatado = valorFormatado.Replace(",", ".");
+
+                    vendaRepository.AdicionarVenda(clienteID, produtoID, quantidade, decimal.Parse(valorFormatado, System.Globalization.CultureInfo.InvariantCulture), formaPagamento);
 
                     if(produtoRepo.ObterQuantidadeEstoque(produtoID) == 0){
                         produtoRepo.AlterarStatusPorId(produtoID, false);
                     }
                     break;
-
-
                     
                 case 2:
                     Console.WriteLine("Lista de todas as vendas:");

@@ -7,13 +7,13 @@ public class VendaRepository
 
     private int proximoID = 1;
 
-    public void AdicionarVenda(int clienteID, int produtoID, int quantidade, FormaPagamento formaPagamento)
+    public void AdicionarVenda(int clienteID, int produtoID, int quantidade, decimal preco, FormaPagamento formaPagamento)
     {
         bool verificacao = service.RealizarNovaVenda(clienteID, produtoID, quantidade, formaPagamento);
         int obterId = ObterId();
 
         if(verificacao == true){
-            Venda novaVenda = new Venda(obterId, clienteID, produtoID, quantidade, formaPagamento)
+            Venda novaVenda = new Venda(obterId, clienteID, produtoID, quantidade, preco, formaPagamento)
             {
                 Data = DateTime.Now
             };
@@ -35,6 +35,7 @@ public class VendaRepository
             Console.WriteLine($"Cliente ID: {venda.ClienteID}");
             Console.WriteLine($"Produto ID: {venda.ProdutoID}");
             Console.WriteLine($"Quantidade: {venda.Quantidade}");
+            Console.WriteLine($"Valor: R${venda.Preco}");
             Console.WriteLine($"Forma de Pagamento: {venda.FormaPagamento}");
             Console.WriteLine("--------------");
         }
@@ -51,6 +52,7 @@ public class VendaRepository
             Console.WriteLine($"Cliente ID: {vendaEncontrada.ClienteID}");
             Console.WriteLine($"Produto ID: {vendaEncontrada.ProdutoID}");
             Console.WriteLine($"Quantidade: {vendaEncontrada.Quantidade}");
+            Console.WriteLine($"Valor: R${vendaEncontrada.Preco}");
             Console.WriteLine($"Forma de Pagamento: {vendaEncontrada.FormaPagamento}");
             Console.WriteLine("--------------");
         }

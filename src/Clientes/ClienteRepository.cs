@@ -6,7 +6,7 @@ public class ClienteRepository
 
     public static bool AddCliente(Cliente cliente)
     {
-        clientesDatabase.Clientes().Add(cliente);
+        clientesDatabase.AdicionarCliente(cliente);
 
         return true;
     }
@@ -86,9 +86,8 @@ public class ClienteRepository
             string telefoneFormatado = FormatarTelefone(cliente.Telefone);
         
             string status = cliente.Status ? "Sim" : "Não";
-            Console.WriteLine($"Cliente {cliente.Id}:\n");
             
-            Console.WriteLine($"Id: {cliente.Id}\nAtivo: {status}\nNome: {cliente.Nome}\nCPF: {cliente.CPF}\nSexo: {cliente.Sexo}\nTelefone: {telefoneFormatado}\nEmail: {cliente.Email}\n\n");
+            Console.WriteLine($"Id: {cliente.Id}, Ativo: {status}, Nome: {cliente.Nome}, CPF: {cliente.CPF}, Sexo: {cliente.Sexo}, Telefone: {telefoneFormatado}, Email: {cliente.Email}");
     
         }
     }
