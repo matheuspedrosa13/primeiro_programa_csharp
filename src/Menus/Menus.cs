@@ -125,7 +125,7 @@ public class Menu
         decimal precoDecimal;
         while (!decimal.TryParse(precoInput, System.Globalization.NumberStyles.AllowDecimalPoint | System.Globalization.NumberStyles.AllowLeadingSign, CultureInfo.GetCultureInfo("en-US"), out precoDecimal))
         {
-            Console.WriteLine("Escolha inválida! O preço deve ser inteiro ou decimal!");
+            Console.WriteLine("Escolha inválida! O preço deve ser inteiro ou decimal (com virgula ou ponto)!");
             Console.Write("Digite o preço: ");
             precoInput = Console.ReadLine()!;
         }
