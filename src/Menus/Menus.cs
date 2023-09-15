@@ -699,7 +699,6 @@ public class Menu
                 case 6:
                     Console.WriteLine("Digite o id do cliente para atualizar as informações:");
                     var idAtualizarStr = Console.ReadLine();
-
                     int idAtualizar;
 
                     while (!int.TryParse(idAtualizarStr, out idAtualizar))
@@ -708,7 +707,7 @@ public class Menu
                         idAtualizarStr = Console.ReadLine(); 
                     }
    
-                    Cliente clienteParaAtualizar = clienteDatabase.Clientes().FirstOrDefault(client => client.Id == idAtualizar)!;
+                    Cliente clienteParaAtualizar = clienteRepo.BuscarPorId(idAtualizar);
                     
                     if (clienteParaAtualizar == null)
                     {
@@ -727,14 +726,15 @@ public class Menu
                         case "1":
                             Console.WriteLine("Digite o novo nome do cliente (com sobrenome):");
                             var novoNome = Console.ReadLine();
-
-                            if (!clienteService.TemSobrenome(novoNome!))
+                            var nomeVerificado = ObterNome(novoNome!);
+                            string nomeFormatadoAtualizacao = clienteService.ParaPascalCase(nomeVerificado);
+                            if (!clienteService.TemSobrenome(nomeFormatadoAtualizacao!))
                             {
                                 Console.WriteLine("O nome deve ter pelo menos duas palavras!");
                                 break;
                             }
 
-                            bool clienteAtualizadoNome = ClienteRepository.AtualizarPorId(idAtualizar, novoNome!);
+                            bool clienteAtualizadoNome = ClienteRepository.AtualizarPorId(idAtualizar, nomeFormatadoAtualizacao!);
                             if (clienteAtualizadoNome)
                             {
                                 Console.WriteLine("Nome do cliente atualizado com sucesso!");
