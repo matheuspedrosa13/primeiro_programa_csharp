@@ -393,27 +393,18 @@ public class Menu
                                 var novoPrecoStr = Console.ReadLine();
 
                                 novoPrecoStr = novoPrecoStr!.Replace(",", ".");
+                                var precoFormatado = ObterPrecoProduto(novoPrecoStr);
 
-                                if (decimal.TryParse(novoPrecoStr, System.Globalization.NumberStyles.AllowDecimalPoint, System.Globalization.CultureInfo.InvariantCulture, out decimal novoPreco))
+                                bool produtoAtualizadoPreco = produtoRepo.AtualizarPorId(idAtualizarProduto, preco: precoFormatado);
+                                if (produtoAtualizadoPreco)
                                 {
-                                    bool produtoAtualizadoPreco = produtoRepo.AtualizarPorId(idAtualizarProduto, preco: novoPreco);
-                                    if (produtoAtualizadoPreco)
-                                    {
-                                        Console.WriteLine("Preço do produto atualizado com sucesso!");
-                                    }
-                                    else
-                                    {
-                                        Console.WriteLine("Não foi possível atualizar o preço do produto.");
-                                    }
+                                    Console.WriteLine("Preço do produto atualizado com sucesso!");
                                 }
                                 else
                                 {
-                                    Console.WriteLine("Preço inválido! Digite um número decimal válido.");
+                                    Console.WriteLine("Não foi possível atualizar o preço do produto.");
                                 }
                                 break;
-
-
-
 
                             case "3":
                                 Console.WriteLine("Digite o novo fabricante do produto:");
